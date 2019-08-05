@@ -132,11 +132,16 @@ export class Commands {
    * @returns {Promise<void>}
    */
   public createPullRequest = async (): Promise<void> => {
+    const githubUrl = "https://github.com/";
     const branchName = await Git.getCurrentBranchName();
     const story = await Story.getBasedOnBranchName(branchName);
-
     const gitRemoteUrl = await execute([`git remote get-url origin`]);
-    const gitRemoteUrlPath = gitRemoteUrl.split(":")[1].replace(".git", "");
+
+    // Use different methods to extract the branch name
+    // depending on if the user is using https or ssh
+    const gitRemoteUrlPath = gitRemoteUrl.startsWith(githubUrl)
+      ? gitRemoteUrl.replace(githubUrl, "").replace(".git", "")
+      : gitRemoteUrl.split(":")[1].replace(".git", "");
     const storyDescription = `Story details: https://app.clubhouse.io/story/${
       story.id
     }`;

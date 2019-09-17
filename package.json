@@ -59,7 +59,7 @@
 		"@types/node": "^12.7.5",
 		"tslint": "^5.20.0",
 		"typescript": "^3.3.1",
-		"vscode": "^1.1.28"
+		"vscode": "^1.1.36"
 	},
 	"dependencies": {
 		"@types/lodash": "^4.14.136",

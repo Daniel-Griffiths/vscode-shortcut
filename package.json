@@ -55,7 +55,7 @@
 	],
 	"main": "./out/extension.js",
 	"devDependencies": {
-		"@types/mocha": "^2.2.42",
+		"@types/mocha": "^5.2.7",
 		"@types/node": "^12.7.5",
 		"tslint": "^5.20.0",
 		"typescript": "^3.3.1",

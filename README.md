@@ -3,13 +3,6 @@
 A extension that adds Clubhouse.io integration with VSCode, the purpose of this extension is 
 to use all the great features of Clubhouse without ever needing to leave the code editor. This means developers can spend more time coding, and less time moving/maintaining stories.
 
-Some of the features of this extension include:
-
-- Search for stories
-- Branching stories
-- Creating pull requests
-- Creating commit's 
-
 ## Missing Features
 
 This plugin is a work in progress and is currently missing the following features

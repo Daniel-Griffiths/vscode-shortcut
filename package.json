@@ -26,6 +26,10 @@
 				"title": "Clubhouse: Set Username"
 			},
 			{
+				"command": "clubhouse.setDefaultBranchName",
+				"title": "Clubhouse: Set Default Branch"
+			},
+			{
 				"command": "clubhouse.search",
 				"title": "Clubhouse: Search Stories"
 			},
@@ -55,17 +59,17 @@
 	],
 	"main": "./out/extension.js",
 	"devDependencies": {
-		"@types/mocha": "^2.2.42",
-		"@types/node": "^10.12.21",
-		"tslint": "^5.12.1",
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28"
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.7.8",
+		"tslint": "^5.20.0",
+		"typescript": "^3.6.3",
+		"vscode": "^1.1.36"
 	},
 	"dependencies": {
-		"@types/lodash": "^4.14.136",
+		"@types/lodash": "^4.14.141",
 		"@types/marked": "^0.6.5",
 		"axios": "^0.19.0",
 		"lodash": "^4.17.15",
-		"marked": "^0.6.3"
+		"marked": "^0.7.0"
 	}
 }

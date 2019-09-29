@@ -32,6 +32,10 @@ export function activate(context: vscode.ExtensionContext) {
     "clubhouse.setUsername",
     commands.setUsername
   );
+  vscode.commands.registerCommand(
+    "clubhouse.setDefaultBranchName",
+    commands.setDefaultBranchName
+  );
 }
 
 // this method is called when your extension is deactivated

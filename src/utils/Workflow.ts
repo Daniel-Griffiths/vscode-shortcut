@@ -16,10 +16,8 @@ export class Workflow {
    * @static
    */
   public static get = async (): Promise<QuickPickItem[]> => {
-    const token = Storage.get("token");
-
     if (!Storage.get<IWorkflow[]>("workflows")) {
-      const { data } = await api.get(`workflows?token=${token}`);
+      const { data } = await api.get(`workflows`);
       Storage.set<IWorkflow[]>("workflows", data);
     }
 

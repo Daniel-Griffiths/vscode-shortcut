@@ -1,3 +1,7 @@
+import * as vscode from "vscode";
+
+import { api } from "../api";
+import { Storage } from "./Storage";
 import { IUser, IUserQuickPick } from "../interfaces";
 
 export class User {

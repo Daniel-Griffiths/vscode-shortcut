@@ -2,7 +2,6 @@ import * as path from "path";
 import * as vscode from "vscode";
 
 import { api } from "../api";
-import { Storage } from "./Storage";
 import { globalContext } from "./registerGlobalState";
 import { IStory, ISearchStory, ISearchStoryQuickPick } from "../interfaces";
 
@@ -58,13 +57,10 @@ export class Story {
    * @static
    */
   public static search = async (query: string): Promise<ISearchStory[]> => {
-    const token = Storage.get("token");
-
+    console.log(query);
     const {
       data: { data },
-    } = await api.get(
-      `search/stories?token=${token}&page_size=25&query=${query}"`
-    );
+    } = await api.get(`search/stories?page_size=25&query=${query}"`);
 
     return data;
   };
@@ -77,9 +73,7 @@ export class Story {
    * @static
    */
   public static get = async (id: number): Promise<IStory> => {
-    const token = Storage.get("token");
-
-    const { data } = await api.get(`stories/${id}?token=${token}`);
+    const { data } = await api.get(`stories/${id}`);
 
     return data;
   };

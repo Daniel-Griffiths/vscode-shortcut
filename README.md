@@ -8,7 +8,6 @@ to use all the great features of Clubhouse without ever needing to leave the cod
 This plugin is a work in progress and is currently missing the following features
 
 - Ability to create/edit stories
-- Ability to change your primary development branch (currently it assumes your branch is called "develop")
 
 ## Getting started
 

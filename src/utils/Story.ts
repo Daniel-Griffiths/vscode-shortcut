@@ -57,7 +57,6 @@ export class Story {
    * @static
    */
   public static search = async (query: string): Promise<ISearchStory[]> => {
-    console.log(query);
     const {
       data: { data },
     } = await api.get(`search/stories?page_size=25&query=${query}"`);

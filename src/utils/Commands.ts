@@ -130,8 +130,8 @@ export class Commands {
 
     const branchName = await Git.getCurrentBranchName();
     const story = await Story.getBasedOnBranchName(branchName);
-
-    const defaultCommitMessage = `${story.name} [ch${story.id}]`;
+    const storyName = story.name.replace(/[^\w\s]/gi, "");
+    const defaultCommitMessage = `${storyName} [ch${story.id}]`;
 
     const commitMessage = await vscode.window.showInputBox({
       value: defaultCommitMessage,

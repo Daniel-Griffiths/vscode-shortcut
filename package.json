@@ -9,6 +9,7 @@
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"build": "yarn compile && vsce package",
+		"deploy": "yarn build && vsce publish minor",
 		"postinstall": "touch node_modules/.metadata_never_index && node ./node_modules/vscode/bin/install"
 	},
 	"contributes": {

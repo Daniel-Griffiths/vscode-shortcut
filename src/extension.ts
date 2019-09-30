@@ -8,8 +8,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   const commands = new Commands();
 
-  commands.setup();
-
   /**
    * Commands
    */

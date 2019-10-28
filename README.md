@@ -20,19 +20,22 @@ This api key is stored locally in VSCode and is never shared with the outside wo
 | Command | Description |
 |---|---|
 | Set Token | Set the clubhouse.io api token, this is required to use this VSCode extension |
-| Set Username | Set your cloubhouse.io username, this is used in conjunction with the `Get Stories` command, to get stories assigned to that username |
-| Set Default Branch | Set's the default git branch, when new features branches are created/merged, they will use the default branch as the base |
-| Get Stories| Get's stories assigned to the currently selected username (Set by the `Set Username` command) |
+| Set Base Branch | Set's the default base branch, when new features branches are created/merged, they will use the default branch as the base |
+| Get Stories| Get's all stories currently assigned to you (separated by workflow) |
 | Search Stories | Searches all stories in clubhouse.io, this supports all the search operators used in the main clubhouse app. [View the full list here](https://help.clubhouse.io/hc/en-us/articles/360000046646-Searching-in-Clubhouse-Story-Search) |
-| Create Commit | Pushes a new commit to the feature branch, and automatically creates the feature branch on remote |
+| Create Commit and Push | Pushes a new commit to the feature branch, and automatically creates the feature branch on remote |
 | Create Pull Request | Opens the "create pull request" page on github, automatically selects the current feature branch and prefills the title and description. Note: This will not automatically open the PR this just saves you filling in some of the info yourself |
 
 ## Working on this extension
 
-To compile this extension run the following command:
+To compile this extension:
 
 `yarn build`
 
-To publish a new version run 
+To run tests:
+
+`yarn test`
+
+To publish a new version:
 
 `vsce publish minor`

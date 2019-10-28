@@ -6,11 +6,11 @@ export class Storage {
    * Get an item from local storage
    *
    * @param   {string} key
-   * @returns {T}
+   * @returns {T|undefined}
    * @static
    */
   public static get = <T>(key: string): T => {
-    return globalState.get(key) as T;
+    return globalState && (globalState.get<T>(key) as T);
   };
 
   /**

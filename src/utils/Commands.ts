@@ -9,7 +9,8 @@ import { Storage } from "./Storage";
 import { Workflow } from "./Workflow";
 import { Username } from "./Username";
 
-import { ISearchStory, ISearchStoryQuickPick } from "../interfaces";
+import { Story as IStory } from "clubhouse-lib";
+import { ISearchStoryQuickPick } from "../interfaces";
 
 enum Action {
   openInBrowser,
@@ -26,7 +27,7 @@ export class Commands {
     !Storage.get("token") && (await Token.set());
     !Storage.get("username") && (await Username.set());
     !Storage.currentProjectGet("defaultBranchName") &&
-      (await Git.setDefaultBranchName());
+      (await Git.setBaseBranch());
 
     return ![
       Storage.get("token"),
@@ -45,21 +46,12 @@ export class Commands {
   };
 
   /**
-   * Set the username
+   * Set the default base branch
    *
    * @returns {Promise<string|void>}
    */
-  public setUsername = async (): Promise<string | void> => {
-    return await Username.set();
-  };
-
-  /**
-   * Set the default branch name
-   *
-   * @returns {Promise<string|void>}
-   */
-  public setDefaultBranchName = async (): Promise<string | void> => {
-    return Git.setDefaultBranchName();
+  public setBaseBranch = async (): Promise<string | void> => {
+    return Git.setBaseBranch();
   };
 
   /**
@@ -121,15 +113,36 @@ export class Commands {
   };
 
   /**
-   * Create a new commit
+   * Redo the previous commit
    *
    * @returns {Promise<void>}
    */
-  public createCommit = async (): Promise<void> => {
+  public redoCommit = async (): Promise<void> => {
+    await execute([
+      `git add .`,
+      `git commit --amend -C HEAD`,
+      `git push --force-with-lease`,
+    ]);
+  };
+
+  /**
+   * Create a new commit and push it to the remote branch
+   *
+   * @returns {Promise<void>}
+   */
+  public createCommitAndPush = async (): Promise<void> => {
     if (!(await this.setup())) return;
 
     const branchName = await Git.getCurrentBranchName();
     const story = await Story.getBasedOnBranchName(branchName);
+
+    if (!story) {
+      vscode.window.showWarningMessage(
+        `There is no story associated with this branch on clubhouse.io`
+      );
+      return;
+    }
+
     const storyName = story.name.replace(/[^\w\s]/gi, "");
     const defaultCommitMessage = `${storyName} [ch${story.id}]`;
 
@@ -169,7 +182,7 @@ export class Commands {
    *
    * @returns {Promise<void>}
    */
-  private queryStories = async (stories: ISearchStory[]): Promise<void> => {
+  private queryStories = async (stories: IStory[]): Promise<void> => {
     if (!stories) return;
 
     const selectedStory = await vscode.window.showQuickPick<

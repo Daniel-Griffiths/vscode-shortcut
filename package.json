@@ -61,13 +61,13 @@
 	"main": "./out/extension.js",
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.7.8",
+		"@types/node": "^12.11.7",
 		"tslint": "^5.20.0",
-		"typescript": "^3.6.3",
+		"typescript": "^3.6.4",
 		"vscode": "^1.1.36"
 	},
 	"dependencies": {
-		"@types/lodash": "^4.14.141",
+		"@types/lodash": "^4.14.144",
 		"@types/marked": "^0.6.5",
 		"axios": "^0.19.0",
 		"lodash": "^4.17.15",

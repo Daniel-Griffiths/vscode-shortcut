@@ -67,7 +67,7 @@
 		"vscode": "^1.1.36"
 	},
 	"dependencies": {
-		"@types/lodash": "^4.14.144",
+		"@types/lodash": "^4.14.147",
 		"@types/marked": "^0.6.5",
 		"axios": "^0.19.0",
 		"lodash": "^4.17.15",

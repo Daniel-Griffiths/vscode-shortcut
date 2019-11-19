@@ -68,7 +68,7 @@
 	},
 	"dependencies": {
 		"@types/lodash": "^4.14.144",
-		"@types/marked": "^0.6.5",
+		"@types/marked": "^0.7.2",
 		"axios": "^0.19.0",
 		"lodash": "^4.17.15",
 		"marked": "^0.7.0"

@@ -5,9 +5,10 @@
 	"description": "Use Clubhouse in VSCode",
 	"icon": "src/assets/images/logo.png",
 	"scripts": {
-		"vscode:prepublish": "yarn run compile",
+		"test": "jest",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
+		"vscode:prepublish": "yarn run compile",
 		"build": "yarn compile && vsce package",
 		"deploy": "yarn build && vsce publish minor",
 		"postinstall": "touch node_modules/.metadata_never_index && node ./node_modules/vscode/bin/install"
@@ -23,12 +24,8 @@
 				"title": "Clubhouse: Set Token"
 			},
 			{
-				"command": "clubhouse.setUsername",
-				"title": "Clubhouse: Set Username"
-			},
-			{
-				"command": "clubhouse.setDefaultBranchName",
-				"title": "Clubhouse: Set Default Branch"
+				"command": "clubhouse.setBaseBranch",
+				"title": "Clubhouse: Set Base Branch"
 			},
 			{
 				"command": "clubhouse.search",
@@ -39,8 +36,12 @@
 				"title": "Clubhouse: Create Pull Request"
 			},
 			{
-				"command": "clubhouse.createCommit",
-				"title": "Clubhouse: Create Commit"
+				"command": "clubhouse.createCommitAndPush",
+				"title": "Clubhouse: Create Commit and Push"
+			},
+			{
+				"command": "clubhouse.redoCommit",
+				"title": "Clubhouse: Redo Previous Commit (force push with lease)"
 			}
 		]
 	},
@@ -48,7 +49,7 @@
 		"type": "git",
 		"url": "https://github.com/Daniel-Griffiths/vscode-clubhouse.git"
 	},
-	"version": "0.5.0",
+	"version": "0.6.0",
 	"engines": {
 		"vscode": "^1.35.0"
 	},
@@ -61,16 +62,20 @@
 	"main": "./out/extension.js",
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.11.7",
+		"@types/node": "^13.1.1",
 		"tslint": "^5.20.1",
-		"typescript": "^3.6.4",
+		"typescript": "^3.7.4",
 		"vscode": "^1.1.36"
 	},
 	"dependencies": {
-		"@types/lodash": "^4.14.144",
-		"@types/marked": "^0.6.5",
+		"@types/jest": "^24.0.25",
+		"@types/lodash": "^4.14.149",
+		"@types/marked": "^0.7.2",
 		"axios": "^0.19.0",
+		"clubhouse-lib": "^0.9.0",
+		"jest": "^24.9.0",
 		"lodash": "^4.17.15",
-		"marked": "^0.7.0"
+		"marked": "^0.8.0",
+		"ts-jest": "^24.2.0"
 	}
 }

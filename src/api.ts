@@ -1,22 +1,13 @@
-import axios from "axios";
+import Client, { create } from "clubhouse-lib";
 
 import { Storage } from "./utils/Storage";
 
-export const api = axios.create({
-  baseURL: `https://api.clubhouse.io/api/v2/`,
-});
+let clubhouseInstance: Client;
 
-api.interceptors.request.use(
-  function(response) {
-    const token = Storage.get("token");
-
-    response.params = !response.params ? {} : response.params;
-
-    response.params["token"] = token;
-
-    return response;
-  },
-  function(err) {
-    return Promise.reject(err);
+export const api = () => {
+  if (!clubhouseInstance) {
+    clubhouseInstance = create(Storage.get("token"));
   }
-);
+
+  return clubhouseInstance;
+};

@@ -9,11 +9,12 @@ import { Storage } from "./Storage";
 import { Workflow } from "./Workflow";
 import { Username } from "./Username";
 
-import { ISearchStory, ISearchStoryQuickPick } from "../interfaces";
+import { Story as IStory } from "clubhouse-lib";
+import { ISearchStoryQuickPick } from "../interfaces";
 
 enum Action {
   openInBrowser,
-  createBranch,
+  createBranch
 }
 
 export class Commands {
@@ -26,12 +27,12 @@ export class Commands {
     !Storage.get("token") && (await Token.set());
     !Storage.get("username") && (await Username.set());
     !Storage.currentProjectGet("defaultBranchName") &&
-      (await Git.setDefaultBranchName());
+      (await Git.setBaseBranch());
 
     return ![
       Storage.get("token"),
       Storage.get("username"),
-      Storage.currentProjectGet("defaultBranchName"),
+      Storage.currentProjectGet("defaultBranchName")
     ].some(setting => setting === false);
   };
 
@@ -45,21 +46,12 @@ export class Commands {
   };
 
   /**
-   * Set the username
+   * Set the default base branch
    *
    * @returns {Promise<string|void>}
    */
-  public setUsername = async (): Promise<string | void> => {
-    return await Username.set();
-  };
-
-  /**
-   * Set the default branch name
-   *
-   * @returns {Promise<string|void>}
-   */
-  public setDefaultBranchName = async (): Promise<string | void> => {
-    return Git.setDefaultBranchName();
+  public setBaseBranch = async (): Promise<string | void> => {
+    return Git.setBaseBranch();
   };
 
   /**
@@ -121,21 +113,42 @@ export class Commands {
   };
 
   /**
-   * Create a new commit
+   * Redo the previous commit
    *
    * @returns {Promise<void>}
    */
-  public createCommit = async (): Promise<void> => {
+  public redoCommit = async (): Promise<void> => {
+    await execute([
+      `git add .`,
+      `git commit --amend -C HEAD`,
+      `git push --force-with-lease`
+    ]);
+  };
+
+  /**
+   * Create a new commit and push it to the remote branch
+   *
+   * @returns {Promise<void>}
+   */
+  public createCommitAndPush = async (): Promise<void> => {
     if (!(await this.setup())) return;
 
     const branchName = await Git.getCurrentBranchName();
     const story = await Story.getBasedOnBranchName(branchName);
+
+    if (!story) {
+      vscode.window.showWarningMessage(
+        `There is no story associated with this branch on clubhouse.io`
+      );
+      return;
+    }
+
     const storyName = story.name.replace(/[^\w\s]/gi, "");
     const defaultCommitMessage = `${storyName} [ch${story.id}]`;
 
     const commitMessage = await vscode.window.showInputBox({
       value: defaultCommitMessage,
-      placeHolder: "Please enter a commit message",
+      placeHolder: "Please enter a commit message"
     });
 
     if (!commitMessage) return;
@@ -143,7 +156,7 @@ export class Commands {
     await execute([
       `git add .`,
       `git commit -m "${commitMessage}"`,
-      `git push`,
+      `git push`
     ]);
   };
 
@@ -156,7 +169,7 @@ export class Commands {
     if (!(await this.setup())) return;
 
     const query = await vscode.window.showInputBox({
-      placeHolder: "Please enter a search query",
+      placeHolder: "Please enter a search query"
     });
 
     const searchResults = await Story.search(query as string);
@@ -169,7 +182,7 @@ export class Commands {
    *
    * @returns {Promise<void>}
    */
-  private queryStories = async (stories: ISearchStory[]): Promise<void> => {
+  private queryStories = async (stories: IStory[]): Promise<void> => {
     if (!stories) return;
 
     const selectedStory = await vscode.window.showQuickPick<
@@ -182,13 +195,13 @@ export class Commands {
       {
         label: "View Story",
         description: "Open the story on clubhouse.io",
-        action: Action.openInBrowser,
+        action: Action.openInBrowser
       },
       {
         label: "Create Branch",
         description: "Create a new branch based on the story name",
-        action: Action.createBranch,
-      },
+        action: Action.createBranch
+      }
     ]);
 
     if (!selectedAction) return;
@@ -210,7 +223,7 @@ export class Commands {
           `git checkout ${defaultBranchName}`,
           `git pull`,
           `git checkout ${branchName} || git checkout -b ${branchName}`,
-          `git push --set-upstream origin ${branchName}`,
+          `git push --set-upstream origin ${branchName}`
         ]);
 
         vscode.window.showInformationMessage(

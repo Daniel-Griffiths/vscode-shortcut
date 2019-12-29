@@ -1,8 +1,8 @@
+import { QuickPickItem } from "vscode";
+import { Workflow as IWorkflow } from "clubhouse-lib";
+
 import { api } from "../api";
 import { Storage } from "./Storage";
-
-import { IWorkflow } from "../interfaces";
-import { QuickPickItem } from "vscode";
 
 export class Workflow {
   /**
@@ -17,8 +17,8 @@ export class Workflow {
    */
   public static get = async (): Promise<QuickPickItem[]> => {
     if (!Storage.get<IWorkflow[]>("workflows")) {
-      const { data } = await api.get(`workflows`);
-      Storage.set<IWorkflow[]>("workflows", data);
+      const workflows = await api().listWorkflows();
+      Storage.set<IWorkflow[]>("workflows", workflows);
     }
 
     // @todo don't assume the first item has the correct workflows

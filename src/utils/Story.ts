@@ -1,9 +1,10 @@
 import * as path from "path";
 import * as vscode from "vscode";
+import { Story as IStory, ID } from "clubhouse-lib";
 
 import { api } from "../api";
 import { globalContext } from "./registerGlobalState";
-import { IStory, ISearchStory, ISearchStoryQuickPick } from "../interfaces";
+import { ISearchStoryQuickPick } from "../interfaces";
 
 const marked = require("marked");
 
@@ -17,10 +18,10 @@ export class Story {
   /**
    * Open the specified story in the browser
    *
-   * @param {number} id The story id
+   * @param {ID} id The story id
    * @static
    */
-  public static openInBrowser = (id: number) => {
+  public static openInBrowser = (id: ID) => {
     if (id) {
       vscode.env.openExternal(
         vscode.Uri.parse(`https://app.clubhouse.io/story/${id}`)
@@ -36,7 +37,7 @@ export class Story {
    * @static
    */
   public static toQuickPickItems = (
-    stories: ISearchStory[]
+    stories: IStory[]
   ): ISearchStoryQuickPick[] => {
     return stories
       .filter(story => !story.archived)
@@ -53,13 +54,11 @@ export class Story {
    * Search for stories based on the specified query
    *
    * @param   {string} query
-   * @returns {Promise<ISearchStory[]>}
+   * @returns {Promise<IStory[]>}
    * @static
    */
-  public static search = async (query: string): Promise<ISearchStory[]> => {
-    const {
-      data: { data },
-    } = await api.get(`search/stories?page_size=25&query=${query}"`);
+  public static search = async (query: string): Promise<IStory[]> => {
+    const { data } = await api().searchStories(query, 25);
 
     return data;
   };
@@ -67,14 +66,12 @@ export class Story {
   /**
    * Get a story based on it's ID
    *
-   * @param   {number} id The story id
+   * @param   {ID} id The story id
    * @returns {Promise<IStory>}
    * @static
    */
-  public static get = async (id: number): Promise<IStory> => {
-    const { data } = await api.get(`stories/${id}`);
-
-    return data;
+  public static get = async (id: ID): Promise<IStory> => {
+    return await api().getStory(id);
   };
 
   /**

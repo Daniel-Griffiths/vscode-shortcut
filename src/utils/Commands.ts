@@ -17,6 +17,8 @@ enum Action {
   createBranch
 }
 
+const NO_STORY_ERROR_MESSAGE = `There is no story associated with this branch on clubhouse.io`;
+
 export class Commands {
   /**
    * Check all the required values are set before commands can run
@@ -100,6 +102,11 @@ export class Commands {
     const story = await Story.getBasedOnBranchName(branchName);
     const gitRemoteUrl = await execute([`git remote get-url origin`]);
 
+    if (!story) {
+      vscode.window.showWarningMessage(NO_STORY_ERROR_MESSAGE);
+      return;
+    }
+
     // Use different methods to extract the branch name
     // depending on if the user is using https or ssh
     const gitRemoteUrlPath = gitRemoteUrl.startsWith(githubUrl)
@@ -137,9 +144,7 @@ export class Commands {
     const story = await Story.getBasedOnBranchName(branchName);
 
     if (!story) {
-      vscode.window.showWarningMessage(
-        `There is no story associated with this branch on clubhouse.io`
-      );
+      vscode.window.showWarningMessage(NO_STORY_ERROR_MESSAGE);
       return;
     }
 

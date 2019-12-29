@@ -45,7 +45,7 @@ export class Story {
         return {
           data: story,
           label: String(story.id),
-          description: String(story.name),
+          description: String(story.name)
         };
       });
   };
@@ -78,24 +78,30 @@ export class Story {
    * Extract the story ID from the provided branch name
    *
    * @param   {string} branch
-   * @returns {number}
+   * @returns {number | undefined}
    * @static
    */
-  public static getIdFromBranchName = (branch: string): number => {
-    return Number(branch.split("/")[1].replace("ch", ""));
+  public static getIdFromBranchName = (branch: string): number | undefined => {
+    const [_, branchId] = branch.split("/");
+
+    if (!branchId) return;
+
+    return Number(branchId.replace("ch", ""));
   };
 
   /**
    * Get a story based on the specified branch name
    *
    * @param   {string} branch
-   * @returns {Promise<IStory>}
+   * @returns {Promise<IStory|undefined>}
    * @static
    */
   public static getBasedOnBranchName = async (
     branch: string
-  ): Promise<IStory> => {
+  ): Promise<IStory | undefined> => {
     const storyId = Story.getIdFromBranchName(branch);
+
+    if (!storyId) return;
 
     return await Story.get(storyId);
   };
@@ -111,7 +117,7 @@ export class Story {
       "Story",
       vscode.ViewColumn.Active,
       {
-        enableScripts: true,
+        enableScripts: true
       }
     );
 
@@ -142,8 +148,8 @@ export class Story {
         enableScripts: true,
         retainContextWhenHidden: true,
         localResourceRoots: [
-          vscode.Uri.file(path.join(globalContext.extensionPath, "out")),
-        ],
+          vscode.Uri.file(path.join(globalContext.extensionPath, "out"))
+        ]
       }
     );
 

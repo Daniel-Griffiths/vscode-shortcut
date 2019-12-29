@@ -1,12 +1,12 @@
-import Client, { create } from "clubhouse-lib";
+import Clubhouse from "clubhouse-lib";
 
 import { Storage } from "./utils/Storage";
 
-let clubhouseInstance: Client;
+let clubhouseInstance: Clubhouse<unknown, unknown>;
 
 export const api = () => {
   if (!clubhouseInstance) {
-    clubhouseInstance = create(Storage.get("token"));
+    clubhouseInstance = Clubhouse.create(Storage.get("token"));
   }
 
   return clubhouseInstance;

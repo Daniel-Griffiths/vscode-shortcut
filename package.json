@@ -1,81 +1,80 @@
 {
-	"name": "clubhouse-io",
-	"displayName": "clubhouse.io",
-	"publisher": "danielgriffiths",
-	"description": "Use Clubhouse in VSCode",
-	"icon": "src/assets/images/logo.png",
-	"scripts": {
-		"test": "jest",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"vscode:prepublish": "yarn run compile",
-		"build": "yarn compile && vsce package",
-		"deploy": "yarn build && vsce publish minor",
-		"postinstall": "touch node_modules/.metadata_never_index && node ./node_modules/vscode/bin/install"
-	},
-	"contributes": {
-		"commands": [
-			{
-				"command": "clubhouse.getStories",
-				"title": "Clubhouse: Get Stories"
-			},
-			{
-				"command": "clubhouse.setToken",
-				"title": "Clubhouse: Set Token"
-			},
-			{
-				"command": "clubhouse.setBaseBranch",
-				"title": "Clubhouse: Set Base Branch"
-			},
-			{
-				"command": "clubhouse.search",
-				"title": "Clubhouse: Search Stories"
-			},
-			{
-				"command": "clubhouse.createPullRequest",
-				"title": "Clubhouse: Create Pull Request"
-			},
-			{
-				"command": "clubhouse.createCommitAndPush",
-				"title": "Clubhouse: Create Commit and Push"
-			},
-			{
-				"command": "clubhouse.redoCommit",
-				"title": "Clubhouse: Redo Previous Commit (force push with lease)"
-			}
-		]
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Daniel-Griffiths/vscode-clubhouse.git"
-	},
-	"version": "0.6.0",
-	"engines": {
-		"vscode": "^1.35.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./out/extension.js",
-	"devDependencies": {
-		"@types/mocha": "^5.2.7",
-		"@types/node": "^13.1.1",
-		"tslint": "^5.20.1",
-		"typescript": "^3.7.4",
-		"vscode": "^1.1.36"
-	},
-	"dependencies": {
-		"@types/jest": "^24.0.25",
-		"@types/lodash": "^4.14.149",
-		"@types/marked": "^0.7.2",
-		"axios": "^0.19.0",
-		"clubhouse-lib": "^0.9.0",
-		"jest": "^24.9.0",
-		"lodash": "^4.17.15",
-		"marked": "^0.8.0",
-		"ts-jest": "^24.2.0"
-	}
+  "name": "clubhouse-io",
+  "displayName": "clubhouse.io",
+  "publisher": "danielgriffiths",
+  "description": "Use Clubhouse in VSCode",
+  "icon": "src/assets/images/logo.png",
+  "scripts": {
+    "test": "jest",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "yarn run compile",
+    "build": "yarn compile && vsce package",
+    "deploy": "yarn build && vsce publish minor",
+    "postinstall": "touch node_modules/.metadata_never_index && node ./node_modules/vscode/bin/install"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "clubhouse.getStories",
+        "title": "Clubhouse: Get Stories"
+      },
+      {
+        "command": "clubhouse.setToken",
+        "title": "Clubhouse: Set Token"
+      },
+      {
+        "command": "clubhouse.setBaseBranch",
+        "title": "Clubhouse: Set Base Branch"
+      },
+      {
+        "command": "clubhouse.search",
+        "title": "Clubhouse: Search Stories"
+      },
+      {
+        "command": "clubhouse.createPullRequest",
+        "title": "Clubhouse: Create Pull Request"
+      },
+      {
+        "command": "clubhouse.createCommitAndPush",
+        "title": "Clubhouse: Create Commit and Push"
+      },
+      {
+        "command": "clubhouse.redoCommit",
+        "title": "Clubhouse: Redo Previous Commit (force push with lease)"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Daniel-Griffiths/vscode-clubhouse.git"
+  },
+  "version": "0.6.0",
+  "engines": {
+    "vscode": "^1.35.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "devDependencies": {
+    "@types/node": "^13.1.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4",
+    "vscode": "^1.1.36"
+  },
+  "dependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/lodash": "^4.14.149",
+    "@types/marked": "^0.7.2",
+    "axios": "^0.19.0",
+    "clubhouse-lib": "^0.9.0",
+    "jest": "^24.9.0",
+    "lodash": "^4.17.15",
+    "marked": "^0.8.0",
+    "ts-jest": "^24.2.0"
+  }
 }

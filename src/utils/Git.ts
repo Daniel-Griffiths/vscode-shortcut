@@ -16,7 +16,7 @@ export class Git {
   public static setBaseBranch = async (): Promise<string | void> => {
     const defaultBranchName = await vscode.window.showInputBox({
       value: Storage.currentProjectGet("defaultBranchName"),
-      placeHolder: "Please enter the name of the base branch (eg. develop)",
+      placeHolder: "Please enter the name of the base branch (eg. develop)"
     });
 
     if (!defaultBranchName) return;

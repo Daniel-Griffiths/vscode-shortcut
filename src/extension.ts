@@ -24,10 +24,6 @@ export function activate(context: vscode.ExtensionContext) {
     commands.createCommitAndPush
   );
   vscode.commands.registerCommand(
-    "clubhouse.createStory",
-    commands.createStory
-  );
-  vscode.commands.registerCommand(
     "clubhouse.setBaseBranch",
     commands.setBaseBranch
   );

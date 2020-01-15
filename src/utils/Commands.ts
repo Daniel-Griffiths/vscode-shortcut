@@ -1,5 +1,5 @@
-import { kebabCase } from "lodash";
 import * as vscode from "vscode";
+import { kebabCase, isEmpty } from "lodash";
 
 import { Git } from "./Git";
 import { Token } from "./Token";
@@ -9,6 +9,11 @@ import { Storage } from "./Storage";
 import { Workflow } from "./Workflow";
 import { Username } from "./Username";
 
+import {
+  NO_STORIES_FOUND_MESSAGE,
+  NO_ASSOCIATED_STORY_MESSAGE
+} from "../constants/messages";
+
 import { Story as IStory } from "clubhouse-lib";
 import { ISearchStoryQuickPick } from "../interfaces";
 
@@ -16,8 +21,6 @@ enum Action {
   openInBrowser,
   createBranch
 }
-
-const NO_STORY_ERROR_MESSAGE = `There is no story associated with this branch on clubhouse.io`;
 
 export class Commands {
   /**
@@ -79,17 +82,6 @@ export class Commands {
   };
 
   /**
-   * Create a new pull story
-   *
-   * @returns {Promise<void>}
-   */
-  public createStory = async (): Promise<void> => {
-    if (!(await this.setup())) return;
-
-    Story.create();
-  };
-
-  /**
    * Create a new pull request
    *
    * @returns {Promise<void>}
@@ -103,7 +95,7 @@ export class Commands {
     const gitRemoteUrl = await execute([`git remote get-url origin`]);
 
     if (!story) {
-      vscode.window.showWarningMessage(NO_STORY_ERROR_MESSAGE);
+      vscode.window.showWarningMessage(NO_ASSOCIATED_STORY_MESSAGE);
       return;
     }
 
@@ -144,7 +136,7 @@ export class Commands {
     const story = await Story.getBasedOnBranchName(branchName);
 
     if (!story) {
-      vscode.window.showWarningMessage(NO_STORY_ERROR_MESSAGE);
+      vscode.window.showWarningMessage(NO_ASSOCIATED_STORY_MESSAGE);
       return;
     }
 
@@ -188,7 +180,10 @@ export class Commands {
    * @returns {Promise<void>}
    */
   private queryStories = async (stories: IStory[]): Promise<void> => {
-    if (!stories) return;
+    if (isEmpty(stories)) {
+      vscode.window.showInformationMessage(NO_STORIES_FOUND_MESSAGE);
+      return;
+    }
 
     const selectedStory = await vscode.window.showQuickPick<
       ISearchStoryQuickPick

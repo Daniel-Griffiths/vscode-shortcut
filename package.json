@@ -70,7 +70,7 @@
     "@types/jest": "^24.9.0",
     "@types/lodash": "^4.14.149",
     "@types/marked": "^0.7.2",
-    "axios": "^0.19.1",
+    "axios": "^0.19.2",
     "clubhouse-lib": "^0.9.0",
     "jest": "^24.9.0",
     "lodash": "^4.17.15",

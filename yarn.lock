@@ -749,10 +749,10 @@ cliui@^5.0.0:
     strip-ansi "^5.2.0"
     wrap-ansi "^5.1.0"
 
-clubhouse-lib@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/clubhouse-lib/-/clubhouse-lib-0.9.0.tgz#943ab4898f05fe11153eb3355ae4d65636edcba1"
-  integrity sha512-zDAPL0enr7XJE7jTIRzXPWNRFglRq/SK/h8HS6+IZqlT0Kt55gtzsAiu6BKQQZhtNL+JCA8EhEII9Ex7dIXVLA==
+clubhouse-lib@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/clubhouse-lib/-/clubhouse-lib-0.10.0.tgz#4a09f2a501df16ce353389472f51f3306dce10dd"
+  integrity sha512-ZZjKqOeNgXtz40seJmSYbfAsIGJVzDIAn30w0QRmnyXHFrjEXhW/K8ZgRw5FtsezYFQEuZXSp93S0UkKJHuhKg==
   dependencies:
     fetch-everywhere "^1.0.5"
     query-string "^6.2.0"

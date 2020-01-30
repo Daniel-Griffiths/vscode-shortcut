@@ -61,7 +61,7 @@
   ],
   "main": "./out/extension.js",
   "devDependencies": {
-    "@types/node": "^13.1.7",
+    "@types/node": "^13.5.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.4",
     "vscode": "^1.1.36"

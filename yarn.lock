@@ -356,10 +356,10 @@
   resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.7.2.tgz#1393f076773b55cc7078c0fbeb86a497c69db97e"
   integrity sha512-A3EDyNaq6OCcpaOia2HQ/tu2QYt8DKuj4ExP21VU3cU3HTo2FLslvbqa2T1vux910RHvuSVqpwKnnykSFcRWOA==
 
-"@types/node@^13.1.7":
-  version "13.1.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.7.tgz#db51d28b8dfacfe4fb2d0da88f5eb0a2eca00675"
-  integrity sha512-HU0q9GXazqiKwviVxg9SI/+t/nAsGkvLDkIdxz+ObejG2nX6Si00TeLqHMoS+a/1tjH7a8YpKVQwtgHuMQsldg==
+"@types/node@^13.11.0":
+  version "13.11.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.11.0.tgz#390ea202539c61c8fa6ba4428b57e05bc36dc47b"
+  integrity sha512-uM4mnmsIIPK/yeO+42F2RQhGUIs39K2RFmugcJANppXe6J1nvH87PvzPZYpza7Xhhs8Yn9yIAVdLZ84z61+0xQ==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"

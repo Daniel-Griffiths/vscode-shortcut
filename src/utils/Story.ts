@@ -30,12 +30,12 @@ export class Story {
     stories: IStory[]
   ): ISearchStoryQuickPick[] => {
     return stories
-      .filter(story => !story.archived)
-      .map(story => {
+      .filter((story) => !story.archived)
+      .map((story) => {
         return {
           data: story,
           label: String(story.id),
-          description: String(story.name)
+          description: String(story.name),
         };
       });
   };

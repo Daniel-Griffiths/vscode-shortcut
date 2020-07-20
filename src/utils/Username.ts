@@ -5,9 +5,9 @@ import { Storage } from "./Storage";
 
 export class Username {
   public static set = async () => {
-    const user = await api().getCurrentUser();
+    const user = await api().getCurrentMember();
 
-    const username = user.profile.mention_name;
+    const username = user.mention_name;
 
     return Storage.set("username", username);
   };

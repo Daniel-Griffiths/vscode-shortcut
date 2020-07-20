@@ -11,7 +11,7 @@ import { Username } from "./Username";
 
 import {
   NO_STORIES_FOUND_MESSAGE,
-  NO_ASSOCIATED_STORY_MESSAGE
+  NO_ASSOCIATED_STORY_MESSAGE,
 } from "../constants/messages";
 
 import { Story as IStory } from "clubhouse-lib";
@@ -19,7 +19,7 @@ import { ISearchStoryQuickPick } from "../interfaces";
 
 enum Action {
   openInBrowser,
-  createBranch
+  createBranch,
 }
 
 export class Commands {
@@ -29,16 +29,28 @@ export class Commands {
    * @returns {Promise<boolean>}
    */
   public setup = async (): Promise<boolean> => {
-    !Storage.get("token") && (await Token.set());
-    !Storage.get("username") && (await Username.set());
-    !Storage.currentProjectGet("defaultBranchName") &&
-      (await Git.setBaseBranch());
+    try {
+      if (!Storage.get("token")) {
+        await Token.set();
+      }
 
-    return ![
-      Storage.get("token"),
-      Storage.get("username"),
-      Storage.currentProjectGet("defaultBranchName")
-    ].some(setting => setting === false);
+      if (!Storage.get("username")) {
+        await Username.set();
+      }
+
+      if (!Storage.currentProjectGet("defaultBranchName")) {
+        await Git.setBaseBranch();
+      }
+
+      return ![
+        Storage.get("token"),
+        Storage.get("username"),
+        Storage.currentProjectGet("defaultBranchName"),
+      ].some((setting) => setting === false);
+    } catch (error) {
+      vscode.window.showWarningMessage(error.message);
+      return false;
+    }
   };
 
   /**
@@ -120,7 +132,7 @@ export class Commands {
     await execute([
       `git add .`,
       `git commit --amend -C HEAD`,
-      `git push --force-with-lease`
+      `git push --force-with-lease`,
     ]);
   };
 
@@ -145,7 +157,7 @@ export class Commands {
 
     const commitMessage = await vscode.window.showInputBox({
       value: defaultCommitMessage,
-      placeHolder: "Please enter a commit message"
+      placeHolder: "Please enter a commit message",
     });
 
     if (!commitMessage) return;
@@ -153,7 +165,7 @@ export class Commands {
     await execute([
       `git add .`,
       `git commit -m "${commitMessage}"`,
-      `git push`
+      `git push`,
     ]);
   };
 
@@ -166,7 +178,7 @@ export class Commands {
     if (!(await this.setup())) return;
 
     const query = await vscode.window.showInputBox({
-      placeHolder: "Please enter a search query"
+      placeHolder: "Please enter a search query",
     });
 
     const searchResults = await Story.search(query as string);
@@ -195,13 +207,13 @@ export class Commands {
       {
         label: "View Story",
         description: "Open the story on clubhouse.io",
-        action: Action.openInBrowser
+        action: Action.openInBrowser,
       },
       {
         label: "Create Branch",
         description: "Create a new branch based on the story name",
-        action: Action.createBranch
-      }
+        action: Action.createBranch,
+      },
     ]);
 
     if (!selectedAction) return;
@@ -223,7 +235,7 @@ export class Commands {
           `git checkout ${defaultBranchName}`,
           `git pull`,
           `git checkout ${branchName} || git checkout -b ${branchName}`,
-          `git push --set-upstream origin ${branchName}`
+          `git push --set-upstream origin ${branchName}`,
         ]);
 
         vscode.window.showInformationMessage(

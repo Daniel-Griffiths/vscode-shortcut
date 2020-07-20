@@ -49,7 +49,7 @@
     "type": "git",
     "url": "https://github.com/Daniel-Griffiths/vscode-clubhouse.git"
   },
-  "version": "0.9.0",
+  "version": "0.9.1",
   "engines": {
     "vscode": "^1.35.0"
   },
@@ -61,20 +61,20 @@
   ],
   "main": "./out/extension.js",
   "devDependencies": {
-    "@types/node": "^13.1.7",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.4",
-    "vscode": "^1.1.36"
+    "@types/node": "^14.0.23",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.7",
+    "vscode": "^1.1.37"
   },
   "dependencies": {
-    "@types/jest": "^24.9.0",
-    "@types/lodash": "^4.14.149",
-    "@types/marked": "^0.7.2",
-    "axios": "^0.19.1",
-    "clubhouse-lib": "^0.9.0",
-    "jest": "^24.9.0",
-    "lodash": "^4.17.15",
-    "marked": "^0.8.0",
-    "ts-jest": "^24.3.0"
+    "@types/jest": "^26.0.5",
+    "@types/lodash": "^4.14.157",
+    "@types/marked": "^1.1.0",
+    "axios": "^0.19.2",
+    "clubhouse-lib": "^0.10.0",
+    "jest": "^26.1.0",
+    "lodash": "^4.17.19",
+    "marked": "^1.1.1",
+    "ts-jest": "^26.1.3"
   }
 }

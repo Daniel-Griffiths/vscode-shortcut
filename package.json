@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@types/jest": "^26.0.5",
-    "@types/lodash": "^4.14.157",
+    "@types/lodash": "^4.14.158",
     "@types/marked": "^1.1.0",
     "axios": "^0.19.2",
     "clubhouse-lib": "^0.10.0",

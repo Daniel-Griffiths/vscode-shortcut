@@ -72,7 +72,7 @@
     "@types/marked": "^1.1.0",
     "axios": "^0.19.2",
     "clubhouse-lib": "^0.10.0",
-    "jest": "^26.1.0",
+    "jest": "^26.4.2",
     "lodash": "^4.17.19",
     "marked": "^1.1.1",
     "ts-jest": "^26.1.3"

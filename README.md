@@ -11,7 +11,7 @@ This plugin is a work in progress and is currently missing the following feature
 
 ## Getting started
 
-To use this extension you will need to provide a Clubhouse.io api key, you can generate one here https://app.clubhouse.io/hotsnapper/settings/account/api-tokens
+To use this extension you will need to provide a Clubhouse.io api key, you can generate one here https://app.clubhouse.io/settings/account/api-tokens
 
 This api key is stored locally in VSCode and is never shared with the outside world.
 

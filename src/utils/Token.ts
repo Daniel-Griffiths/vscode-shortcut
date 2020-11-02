@@ -1,5 +1,4 @@
-import * as vscode from "vscode";
-
+import { VSCode } from "./VSCode";
 import { Storage } from "./Storage";
 
 export class Token {
@@ -8,17 +7,15 @@ export class Token {
    *
    * @returns {Promise<string | void>}
    */
-  public static set = async (): Promise<string | void> => {
-    const token = await vscode.window.showInputBox({
+  public static async set(): Promise<string | void> {
+    const token = await VSCode.input({
       placeHolder: "Please enter your clubhouse api token",
     });
 
     if (!token) return;
 
-    vscode.window.showInformationMessage(
-      "The Clubhouse api token has been set"
-    );
+    VSCode.alertInfo("The Clubhouse api token has been set");
 
     return Storage.set("token", token);
-  };
+  }
 }

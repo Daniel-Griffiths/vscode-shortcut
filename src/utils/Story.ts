@@ -11,13 +11,13 @@ export class Story {
    * @param {ID} id The story id
    * @static
    */
-  public static openInBrowser = (id: ID) => {
+  public static openInBrowser(id: ID) {
     if (id) {
       vscode.env.openExternal(
         vscode.Uri.parse(`https://app.clubhouse.io/story/${id}`)
       );
     }
-  };
+  }
 
   /**
    * Convert `ISearchStory[]` to `ISearchStoryQuickPick[]`
@@ -26,19 +26,15 @@ export class Story {
    * @returns {ISearchStoryQuickPick[]}
    * @static
    */
-  public static toQuickPickItems = (
-    stories: IStory[]
-  ): ISearchStoryQuickPick[] => {
-    return stories
-      .filter((story) => !story.archived)
-      .map((story) => {
-        return {
-          data: story,
-          label: String(story.id),
-          description: String(story.name),
-        };
-      });
-  };
+  public static toQuickPickItems(stories: IStory[]): ISearchStoryQuickPick[] {
+    return stories.map((story) => {
+      return {
+        data: story,
+        label: String(story.id),
+        description: String(story.name),
+      };
+    });
+  }
 
   /**
    * Search for stories based on the specified query
@@ -47,11 +43,11 @@ export class Story {
    * @returns {Promise<IStory[]>}
    * @static
    */
-  public static search = async (query: string): Promise<IStory[]> => {
+  public static async search(query: string): Promise<IStory[]> {
     const { data } = await api().searchStories(query, 25);
 
     return data;
-  };
+  }
 
   /**
    * Get a story based on it's ID
@@ -60,9 +56,9 @@ export class Story {
    * @returns {Promise<IStory>}
    * @static
    */
-  public static get = async (id: ID): Promise<IStory> => {
+  public static async get(id: ID): Promise<IStory> {
     return await api().getStory(id);
-  };
+  }
 
   /**
    * Extract the story ID from the provided branch name
@@ -71,13 +67,13 @@ export class Story {
    * @returns {number | undefined}
    * @static
    */
-  public static getIdFromBranchName = (branch: string): number | undefined => {
+  public static getIdFromBranchName(branch: string): number | undefined {
     const [_, branchId] = branch.split("/");
 
     if (!branchId) return;
 
     return Number(branchId.replace("ch", ""));
-  };
+  }
 
   /**
    * Get a story based on the specified branch name
@@ -86,13 +82,13 @@ export class Story {
    * @returns {Promise<IStory|undefined>}
    * @static
    */
-  public static getBasedOnBranchName = async (
+  public static async getBasedOnBranchName(
     branch: string
-  ): Promise<IStory | undefined> => {
+  ): Promise<IStory | undefined> {
     const storyId = Story.getIdFromBranchName(branch);
 
     if (!storyId) return;
 
     return await Story.get(storyId);
-  };
+  }
 }

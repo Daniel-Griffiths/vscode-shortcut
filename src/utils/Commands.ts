@@ -1,5 +1,6 @@
-import * as vscode from "vscode";
+import * as marked from "marked";
 import { kebabCase, isEmpty } from "lodash";
+import { Story as IStory } from "clubhouse-lib";
 
 import { Git } from "./Git";
 import { Token } from "./Token";
@@ -12,14 +13,16 @@ import { Username } from "./Username";
 import {
   NO_STORIES_FOUND_MESSAGE,
   NO_ASSOCIATED_STORY_MESSAGE,
+  NO_STORIES_IN_WORKLOW_MESSAGE,
 } from "../constants/messages";
 
-import { Story as IStory } from "clubhouse-lib";
 import { ISearchStoryQuickPick } from "../interfaces";
+import { VSCode } from "./VSCode";
 
 enum Action {
-  openInBrowser,
   createBranch,
+  openInVSCode,
+  openInBrowser,
 }
 
 export class Commands {
@@ -48,7 +51,7 @@ export class Commands {
         Storage.currentProjectGet("defaultBranchName"),
       ].some((setting) => setting === false);
     } catch (error) {
-      vscode.window.showWarningMessage(error.message);
+      VSCode.alertWarning(error.message);
       return false;
     }
   };
@@ -82,12 +85,17 @@ export class Commands {
 
     const workflowsStates = await Workflow.get();
 
-    const selectedState = await vscode.window.showQuickPick(workflowsStates);
+    const selectedState = await VSCode.quickPick(workflowsStates);
 
     if (!selectedState) return;
 
-    const searchResults = await Story.search(
-      `owner:${await Username.get()} state:"${selectedState.label.toLowerCase()}"`
+    const searchResults = await VSCode.progressLoading(
+      "Fetching stories...",
+      async () => {
+        return await Story.search(
+          `owner:${await Username.get()} state:"${selectedState.data.name.toLowerCase()}" !is:archived`
+        );
+      }
     );
 
     this.queryStories(searchResults);
@@ -107,7 +115,7 @@ export class Commands {
     const gitRemoteUrl = await execute([`git remote get-url origin`]);
 
     if (!story) {
-      vscode.window.showWarningMessage(NO_ASSOCIATED_STORY_MESSAGE);
+      VSCode.alertWarning(NO_STORIES_IN_WORKLOW_MESSAGE);
       return;
     }
 
@@ -120,20 +128,7 @@ export class Commands {
 
     const pullRequestUrl = `https://github.com/${gitRemoteUrlPath}/compare/${branchName}?expand=1&title=${story.name}&body=${storyDescription}`;
 
-    vscode.env.openExternal(vscode.Uri.parse(pullRequestUrl));
-  };
-
-  /**
-   * Redo the previous commit
-   *
-   * @returns {Promise<void>}
-   */
-  public redoCommit = async (): Promise<void> => {
-    await execute([
-      `git add .`,
-      `git commit --amend -C HEAD`,
-      `git push --force-with-lease`,
-    ]);
+    VSCode.openExtrernalUrl(pullRequestUrl);
   };
 
   /**
@@ -141,21 +136,21 @@ export class Commands {
    *
    * @returns {Promise<void>}
    */
-  public createCommitAndPush = async (): Promise<void> => {
+  public createCommit = async (): Promise<void> => {
     if (!(await this.setup())) return;
 
     const branchName = await Git.getCurrentBranchName();
     const story = await Story.getBasedOnBranchName(branchName);
 
     if (!story) {
-      vscode.window.showWarningMessage(NO_ASSOCIATED_STORY_MESSAGE);
+      VSCode.alertWarning(NO_ASSOCIATED_STORY_MESSAGE);
       return;
     }
 
     const storyName = story.name.replace(/[^\w\s]/gi, "");
     const defaultCommitMessage = `${storyName} [ch${story.id}]`;
 
-    const commitMessage = await vscode.window.showInputBox({
+    const commitMessage = await VSCode.input({
       value: defaultCommitMessage,
       placeHolder: "Please enter a commit message",
     });
@@ -177,7 +172,7 @@ export class Commands {
   public search = async (): Promise<void> => {
     if (!(await this.setup())) return;
 
-    const query = await vscode.window.showInputBox({
+    const query = await VSCode.input({
       placeHolder: "Please enter a search query",
     });
 
@@ -193,17 +188,17 @@ export class Commands {
    */
   private queryStories = async (stories: IStory[]): Promise<void> => {
     if (isEmpty(stories)) {
-      vscode.window.showInformationMessage(NO_STORIES_FOUND_MESSAGE);
+      VSCode.alertInfo(NO_STORIES_FOUND_MESSAGE);
       return;
     }
 
-    const selectedStory = await vscode.window.showQuickPick<
-      ISearchStoryQuickPick
-    >(Story.toQuickPickItems(stories));
+    const selectedStory = await VSCode.quickPick<ISearchStoryQuickPick>(
+      Story.toQuickPickItems(stories)
+    );
 
     if (!selectedStory) return;
 
-    const selectedAction = await vscode.window.showQuickPick([
+    const selectedAction = await VSCode.quickPick([
       {
         label: "View Story",
         description: "Open the story on clubhouse.io",
@@ -214,6 +209,11 @@ export class Commands {
         description: "Create a new branch based on the story name",
         action: Action.createBranch,
       },
+      // {
+      //   label: "View Story In VSCode",
+      //   description: "Open the story in VSCode",
+      //   action: Action.openInVSCode,
+      // },
     ]);
 
     if (!selectedAction) return;
@@ -226,21 +226,35 @@ export class Commands {
       case Action.openInBrowser:
         Story.openInBrowser(story.id);
         break;
+      case Action.openInVSCode:
+        VSCode.openWebView({
+          title: story.name,
+          html: `
+
+        <h1>${story.name}</h1>
+        <p>${marked(story.description)}</p>
+        <hr/>
+        ${story.comments
+          .map((comment) => `<p>${comment.created_at} ${comment.text}</p>`)
+          .join("")}
+        `,
+        });
+        break;
       case Action.createBranch:
         const branchName = `${Storage.get("username")}/ch${
           story.id
         }/${kebabCase(story.name)}`;
 
-        await execute([
-          `git checkout ${defaultBranchName}`,
-          `git pull`,
-          `git checkout ${branchName} || git checkout -b ${branchName}`,
-          `git push --set-upstream origin ${branchName}`,
-        ]);
+        await VSCode.alertLoading("Creating new branch...", async () => {
+          return await execute([
+            `git checkout ${defaultBranchName}`,
+            `git pull`,
+            `git checkout ${branchName} || git checkout -b ${branchName}`,
+            `git push --set-upstream origin ${branchName}`,
+          ]);
+        });
 
-        vscode.window.showInformationMessage(
-          `You are on a new branch ${branchName}`
-        );
+        VSCode.alertInfo(`You are on a new branch ${branchName}`);
 
         break;
     }

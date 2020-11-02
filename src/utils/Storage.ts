@@ -21,10 +21,10 @@ export class Storage {
    * @returns {T}
    * @static
    */
-  public static set = <T>(key: string, value: T): T => {
+  public static set<T>(key: string, value: T): T {
     globalState.update(key, value);
     return value;
-  };
+  }
 
   /**
    * Get an item from local storage for the current project
@@ -33,9 +33,9 @@ export class Storage {
    * @returns {T}
    * @static
    */
-  public static currentProjectGet = <T>(key: string): T => {
+  public static currentProjectGet<T>(key: string): T {
     return Storage.get(`${vscode.workspace.rootPath}.${key}`);
-  };
+  }
 
   /**
    * Set an item from local storage for the current project
@@ -45,7 +45,7 @@ export class Storage {
    * @returns {T}
    * @static
    */
-  public static currentProjectSet = <T>(key: string, value: T): T => {
+  public static currentProjectSet<T>(key: string, value: T): T {
     return Storage.set(`${vscode.workspace.rootPath}.${key}`, value);
-  };
+  }
 }

@@ -1,31 +1,19 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "ES5",
-		"outDir": "out",
-		"noUnusedLocals": false,
-		"lib": [
-			"dom",
-			"esnext.asynciterable",
-			"es6"
-		],
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
-		"sourceMap": true,
-		"rootDir": "./src",
-		"jsx": "react",
-		"typeRoots": [
-			"./node_modules/@types",
-			"./src/typings/"
-		],
-		"noImplicitAny": true,
-		"strictNullChecks": true
-	},
-	"include": [
-		"src/**/*"
-	],
-	"exclude": [
-		"node_modules",
-		".vscode-test"
-	]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES6",
+    "outDir": "out",
+    "noUnusedLocals": false,
+    "lib": ["dom", "esnext.asynciterable", "es6"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "./src/typings/"],
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", ".vscode-test"]
 }

@@ -13,15 +13,14 @@ export function activate(context: vscode.ExtensionContext) {
    */
   vscode.commands.registerCommand("clubhouse.search", commands.search);
   vscode.commands.registerCommand("clubhouse.setToken", commands.setToken);
-  vscode.commands.registerCommand("clubhouse.redoCommit", commands.redoCommit);
   vscode.commands.registerCommand("clubhouse.getStories", commands.getStories);
   vscode.commands.registerCommand(
     "clubhouse.createPullRequest",
     commands.createPullRequest
   );
   vscode.commands.registerCommand(
-    "clubhouse.createCommitAndPush",
-    commands.createCommitAndPush
+    "clubhouse.createCommit",
+    commands.createCommit
   );
   vscode.commands.registerCommand(
     "clubhouse.setBaseBranch",

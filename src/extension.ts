@@ -15,6 +15,10 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.commands.registerCommand("clubhouse.setToken", commands.setToken);
   vscode.commands.registerCommand("clubhouse.getStories", commands.getStories);
   vscode.commands.registerCommand(
+    "clubhouse.createStory",
+    commands.createStory
+  );
+  vscode.commands.registerCommand(
     "clubhouse.createPullRequest",
     commands.createPullRequest
   );

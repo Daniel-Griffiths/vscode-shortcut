@@ -1,61 +1,28 @@
 import * as marked from "marked";
-import { kebabCase, isEmpty } from "lodash";
+import { kebabCase, isEmpty, isNumber } from "lodash";
 import { Story as IStory } from "clubhouse-lib";
 
 import { Git } from "./Git";
 import { Token } from "./Token";
-import { execute } from "./exec";
 import { Story } from "./Story";
+import { execute } from "./exec";
+import { VSCode } from "./VSCode";
+import { Member } from "./Member";
 import { Storage } from "./Storage";
+import { Project } from "./Project";
 import { Workflow } from "./Workflow";
 import { Username } from "./Username";
+import { Action } from "../enums/Action";
+import { StoryType } from "../enums/StoryType";
 
 import {
+  STORY_CREATED_MESSAGE,
   NO_STORIES_FOUND_MESSAGE,
   NO_ASSOCIATED_STORY_MESSAGE,
   NO_STORIES_IN_WORKLOW_MESSAGE,
 } from "../constants/messages";
 
-import { ISearchStoryQuickPick } from "../interfaces";
-import { VSCode } from "./VSCode";
-
-enum Action {
-  createBranch,
-  openInVSCode,
-  openInBrowser,
-}
-
 export class Commands {
-  /**
-   * Check all the required values are set before commands can run
-   *
-   * @returns {Promise<boolean>}
-   */
-  public setup = async (): Promise<boolean> => {
-    try {
-      if (!Storage.get("token")) {
-        await Token.set();
-      }
-
-      if (!Storage.get("username")) {
-        await Username.set();
-      }
-
-      if (!Storage.currentProjectGet("defaultBranchName")) {
-        await Git.setBaseBranch();
-      }
-
-      return ![
-        Storage.get("token"),
-        Storage.get("username"),
-        Storage.currentProjectGet("defaultBranchName"),
-      ].some((setting) => setting === false);
-    } catch (error) {
-      VSCode.alertWarning(error.message);
-      return false;
-    }
-  };
-
   /**
    * Set the token
    *
@@ -75,15 +42,91 @@ export class Commands {
   };
 
   /**
+   * Create a new story.
+   *
+   * @returns {Promise<void>}
+   */
+  public createStory = async (): Promise<void> => {
+    if (!(await this._setup())) return;
+
+    const storyName = await VSCode.input({
+      placeHolder: "Enter the story name",
+    });
+
+    const storyDescription = await VSCode.input({
+      placeHolder: "Enter the story descripion",
+    });
+
+    const storyEstimate = await VSCode.input({
+      placeHolder: "Enter the story estimate (must be a number)",
+    });
+
+    const states = await Workflow.getAll();
+
+    const storyState = await VSCode.quickPick(states, {
+      placeHolder: "What is the story state?",
+    });
+
+    if (!storyState) return;
+
+    const storyType = await VSCode.quickPick(
+      [
+        { label: "Feature", data: StoryType.feature },
+        { label: "Bug", data: StoryType.bug },
+        { label: "Chore", data: StoryType.chore },
+      ],
+      {
+        placeHolder: "What is the story type?",
+      }
+    );
+
+    if (!storyType) return;
+
+    const projects = await Project.getAll();
+
+    const storyProject = await VSCode.quickPick(
+      Project.toQuickPickItems(projects),
+      {
+        placeHolder: "Which project does this story belong to?",
+      }
+    );
+
+    if (!storyProject) return;
+
+    const members = await Member.getAll();
+
+    const storyOwner = await VSCode.quickPick(
+      Member.toQuickPickItems(members),
+      {
+        placeHolder: "Who is the owner of this story?",
+      }
+    );
+
+    if (!storyOwner) return;
+
+    await Story.create({
+      name: storyName,
+      story_type: storyType.data,
+      description: storyDescription,
+      estimate: Number(storyEstimate),
+      owner_ids: [storyOwner.data.id],
+      project_id: storyProject.data.id,
+      workflow_state_id: storyState.data.id,
+    });
+
+    VSCode.alertInfo(STORY_CREATED_MESSAGE);
+  };
+
+  /**
    * Get stories assigned to the
    * currently logged in user.
    *
    * @returns {Promise<void>}
    */
   public getStories = async (): Promise<void> => {
-    if (!(await this.setup())) return;
+    if (!(await this._setup())) return;
 
-    const workflowsStates = await Workflow.get();
+    const workflowsStates = await Workflow.getAll();
 
     const selectedState = await VSCode.quickPick(workflowsStates);
 
@@ -98,7 +141,7 @@ export class Commands {
       }
     );
 
-    this.queryStories(searchResults);
+    this._queryStories(searchResults);
   };
 
   /**
@@ -107,28 +150,30 @@ export class Commands {
    * @returns {Promise<void>}
    */
   public createPullRequest = async (): Promise<void> => {
-    if (!(await this.setup())) return;
+    if (!(await this._setup())) return;
 
-    const githubUrl = "https://github.com/";
-    const branchName = await Git.getCurrentBranchName();
-    const story = await Story.getBasedOnBranchName(branchName);
-    const gitRemoteUrl = await execute([`git remote get-url origin`]);
+    await VSCode.progressLoading("Creating pull request...", async () => {
+      const githubUrl = "https://github.com/";
+      const branchName = await Git.getCurrentBranchName();
+      const story = await Story.getBasedOnBranchName(branchName);
+      const gitRemoteUrl = await execute([`git remote get-url origin`]);
 
-    if (!story) {
-      VSCode.alertWarning(NO_STORIES_IN_WORKLOW_MESSAGE);
-      return;
-    }
+      if (!story) {
+        VSCode.alertWarning(NO_STORIES_IN_WORKLOW_MESSAGE);
+        return;
+      }
 
-    // Use different methods to extract the branch name
-    // depending on if the user is using https or ssh
-    const gitRemoteUrlPath = gitRemoteUrl.startsWith(githubUrl)
-      ? gitRemoteUrl.replace(githubUrl, "").replace(".git", "")
-      : gitRemoteUrl.split(":")[1].replace(".git", "");
-    const storyDescription = `Story details: https://app.clubhouse.io/story/${story.id}`;
+      // Use different methods to extract the branch name
+      // depending on if the user is using https or ssh
+      const gitRemoteUrlPath = gitRemoteUrl.startsWith(githubUrl)
+        ? gitRemoteUrl.replace(githubUrl, "").replace(".git", "")
+        : gitRemoteUrl.split(":")[1].replace(".git", "");
+      const storyDescription = `Story details: https://app.clubhouse.io/story/${story.id}`;
 
-    const pullRequestUrl = `https://github.com/${gitRemoteUrlPath}/compare/${branchName}?expand=1&title=${story.name}&body=${storyDescription}`;
+      const pullRequestUrl = `https://github.com/${gitRemoteUrlPath}/compare/${branchName}?expand=1&title=${story.name}&body=${storyDescription}`;
 
-    VSCode.openExtrernalUrl(pullRequestUrl);
+      VSCode.openExternalUrl(pullRequestUrl);
+    });
   };
 
   /**
@@ -137,7 +182,7 @@ export class Commands {
    * @returns {Promise<void>}
    */
   public createCommit = async (): Promise<void> => {
-    if (!(await this.setup())) return;
+    if (!(await this._setup())) return;
 
     const branchName = await Git.getCurrentBranchName();
     const story = await Story.getBasedOnBranchName(branchName);
@@ -170,7 +215,7 @@ export class Commands {
    * @returns {Promise<void>}
    */
   public search = async (): Promise<void> => {
-    if (!(await this.setup())) return;
+    if (!(await this._setup())) return;
 
     const query = await VSCode.input({
       placeHolder: "Please enter a search query",
@@ -178,7 +223,37 @@ export class Commands {
 
     const searchResults = await Story.search(query as string);
 
-    this.queryStories(searchResults);
+    this._queryStories(searchResults);
+  };
+
+  /**
+   * Check all the required values are set before commands can run
+   *
+   * @returns {Promise<boolean>}
+   */
+  public _setup = async (): Promise<boolean> => {
+    try {
+      if (!Storage.get("token")) {
+        await Token.set();
+      }
+
+      if (!Storage.get("username")) {
+        await Username.set();
+      }
+
+      if (!Storage.currentProjectGet("defaultBranchName")) {
+        await Git.setBaseBranch();
+      }
+
+      return ![
+        Storage.get("token"),
+        Storage.get("username"),
+        Storage.currentProjectGet("defaultBranchName"),
+      ].some((setting) => setting === false);
+    } catch (error) {
+      VSCode.alertWarning(error.message);
+      return false;
+    }
   };
 
   /**
@@ -186,13 +261,13 @@ export class Commands {
    *
    * @returns {Promise<void>}
    */
-  private queryStories = async (stories: IStory[]): Promise<void> => {
+  private _queryStories = async (stories: IStory[]): Promise<void> => {
     if (isEmpty(stories)) {
       VSCode.alertInfo(NO_STORIES_FOUND_MESSAGE);
       return;
     }
 
-    const selectedStory = await VSCode.quickPick<ISearchStoryQuickPick>(
+    const selectedStory = await VSCode.quickPick(
       Story.toQuickPickItems(stories)
     );
 
@@ -218,7 +293,7 @@ export class Commands {
 
     if (!selectedAction) return;
 
-    const story = await Story.get(selectedStory.data.id);
+    const story = await Story.getById(selectedStory.data.id);
 
     const defaultBranchName = Storage.currentProjectGet("defaultBranchName");
 

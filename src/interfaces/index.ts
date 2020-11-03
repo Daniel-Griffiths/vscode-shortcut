@@ -1,13 +1,11 @@
 import { QuickPickItem } from "vscode";
-import { Story, WorkflowState } from "clubhouse-lib";
+import { Member, Project, Story, WorkflowState } from "clubhouse-lib";
 
-export interface ISearchStoryQuickPick extends QuickPickItem {
-  data: Story;
-}
-
-export interface ISearchWorkflowQuickPick extends QuickPickItem {
-  data: WorkflowState;
-}
+export type QuickPick<T> = Array<
+  {
+    data: T;
+  } & QuickPickItem
+>;
 
 export interface IUser {
   role: string;
@@ -15,3 +13,6 @@ export interface IUser {
     mention_name: string;
   };
 }
+
+export type IMember = Member;
+export type IProject = Project;

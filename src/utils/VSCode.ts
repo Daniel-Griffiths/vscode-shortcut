@@ -124,7 +124,7 @@ export class VSCode {
    * @param {string} url
    * @returns {Thenable<boolean>}
    */
-  public static openExtrernalUrl(url: string): Thenable<boolean> {
+  public static openExternalUrl(url: string): Thenable<boolean> {
     return vscode.env.openExternal(vscode.Uri.parse(url));
   }
 }

@@ -15,6 +15,7 @@ This api key is stored locally in VSCode and is never shared with the outside wo
 |---|---|
 | Set Token | Set the clubhouse.io api token, this is required to use this VSCode extension |
 | Set Base Branch | Set's the default base branch, when new features branches are created/merged, they will use the default branch as the base |
+| Create Story | Creates a brand new story, this will ask for the various story details |
 | Get Stories| Get's all stories currently assigned to you (separated by workflow) |
 | Search Stories | Searches all stories in clubhouse.io, this supports all the search operators used in the main clubhouse app. [View the full list here](https://help.clubhouse.io/hc/en-us/articles/360000046646-Searching-in-Clubhouse-Story-Search) |
 | Create Commit | Pushes a new commit to the feature branch, and automatically creates the feature branch on remote |

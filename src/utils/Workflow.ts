@@ -1,8 +1,11 @@
-import { Workflow as IWorkflow } from "clubhouse-lib";
+import {
+  Workflow as IWorkflow,
+  WorkflowState as IWorkflowState,
+} from "clubhouse-lib";
 
 import { api } from "../api";
 import { Storage } from "./Storage";
-import { ISearchWorkflowQuickPick } from "../interfaces";
+import { QuickPick } from "../interfaces";
 
 export class Workflow {
   /**
@@ -12,10 +15,10 @@ export class Workflow {
    * as they they will not be changed very often
    * They will be updated on every second request.
    *
-   * @returns {Promise<QuickPickItem[]>}
+   * @returns {Promise<QuickPick<IWorkflowState>>}
    * @static
    */
-  public static async get(): Promise<ISearchWorkflowQuickPick[]> {
+  public static async getAll(): Promise<QuickPick<IWorkflowState>> {
     if (!Storage.get<IWorkflow[]>("workflows")) {
       const workflows = await api().listWorkflows();
       Storage.set<IWorkflow[]>("workflows", workflows);

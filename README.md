@@ -3,6 +3,10 @@
 A extension that adds Clubhouse.io integration with VSCode, the purpose of this extension is 
 to use all the great features of Clubhouse without ever needing to leave the code editor. This means developers can spend more time coding, and less time moving/maintaining stories.
 
+<p align="center">
+  <img src="example.gif"/>
+</p>
+
 ## Getting started
 
 To use this extension you will need to provide a Clubhouse.io api key, you can generate one here https://app.clubhouse.io/settings/account/api-tokens

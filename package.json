@@ -44,7 +44,18 @@
         "command": "clubhouse.createCommit",
         "title": "Clubhouse: Create Commit"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "clubhouse configuration",
+      "properties": {
+        "clubhouse.branchFormat": {
+          "type": "string",
+          "default": "[story_type]/[story_id]/[story_name]",
+          "description": "The default branch name format when creating new branches"
+        }
+      }
+    }
   },
   "repository": {
     "type": "git",
@@ -61,20 +72,20 @@
   ],
   "main": "./out/extension.js",
   "devDependencies": {
-    "tslint": "^6.1.3",
-    "ts-jest": "^26.4.3",
-    "typescript": "^4.0.5",
-    "vscode": "^1.1.37",
-    "@types/node": "^14.14.6",
-    "@types/marked": "^1.1.0",
     "@types/jest": "^26.0.15",
-    "@types/lodash": "^4.14.164",
-    "jest": "^26.6.2"
+    "@types/lodash": "^4.14.165",
+    "@types/marked": "^1.2.0",
+    "@types/node": "^14.14.8",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
+    "tslint": "^6.1.3",
+    "typescript": "^4.0.5",
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "axios": "^0.21.0",
     "clubhouse-lib": "^0.10.0",
     "lodash": "^4.17.20",
-    "marked": "^1.2.2"
+    "marked": "^1.2.4"
   }
 }

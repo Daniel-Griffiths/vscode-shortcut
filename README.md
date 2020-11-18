@@ -25,6 +25,24 @@ This api key is stored locally in VSCode and is never shared with the outside wo
 | Create Commit | Pushes a new commit to the feature branch, and automatically creates the feature branch on remote |
 | Create Pull Request | Opens the "create pull request" page on github, automatically selects the current feature branch and prefills the title and description. Note: This will not automatically open the PR this just saves you filling in some of the info yourself |
 
+## Settings
+
+**Branch Format**
+
+This option enables you to change the default branch format when creating new branch, there are a couple of variable that can be added to the branch name
+which will automatically be replaced with the corresponding data in clubhouse, these are the values that are currently supported:
+
+- `[story_id]` = ch1234
+- `[story_type]` = feature
+- `[owner_username]` = daniel
+- `[story_name]` = example-story-name
+
+Here is an example branch format:
+
+```
+[story_type]/[story_id]/[story_name]
+```
+
 ## Working on this extension
 
 To compile this extension:

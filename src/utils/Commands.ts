@@ -1,5 +1,5 @@
 import * as marked from "marked";
-import { kebabCase, isEmpty, isNumber } from "lodash";
+import { kebabCase, isEmpty } from "lodash";
 import { Story as IStory } from "clubhouse-lib";
 
 import { Git } from "./Git";
@@ -7,6 +7,7 @@ import { Token } from "./Token";
 import { Story } from "./Story";
 import { execute } from "./exec";
 import { VSCode } from "./VSCode";
+import { Branch } from "./Branch";
 import { Member } from "./Member";
 import { Storage } from "./Storage";
 import { Project } from "./Project";
@@ -316,9 +317,7 @@ export class Commands {
         });
         break;
       case Action.createBranch:
-        const branchName = `${Storage.get("username")}/ch${
-          story.id
-        }/${kebabCase(story.name)}`;
+        const branchName = Branch.getNameFromStory(story);
 
         await VSCode.alertLoading("Creating new branch...", async () => {
           return await execute([

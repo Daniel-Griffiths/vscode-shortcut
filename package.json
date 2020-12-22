@@ -83,7 +83,7 @@
     "vscode": "^1.1.37"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "clubhouse-lib": "^0.10.0",
     "lodash": "^4.17.20",
     "marked": "^1.2.4"

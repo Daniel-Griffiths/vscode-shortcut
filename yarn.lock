@@ -712,10 +712,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.165.tgz#74d55d947452e2de0742bad65270433b63a8c30f"
   integrity sha512-tjSSOTHhI5mCHTy/OOXYIhi2Wt1qcbHmuXD1Ha7q70CgI/I71afO4XtLb/cVexki1oVYchpul/TOuu3Arcdxrg==
 
-"@types/marked@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-1.2.0.tgz#75e1e444386ad7cdd6d788c91be4977111eda231"
-  integrity sha512-Kj9T+GlJrQQbXL0R6/zuYLaqlrtTmEVXl5LojsjA3KbPn1IpetEUFwJWCi4aDgATtvaR5Yj5vqSGX9upoLbBng==
+"@types/marked@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-2.0.1.tgz#bbb6d1b570a54652a31953c77972f65b6f9235a4"
+  integrity sha512-/CFe3HvXMkh7YkJS0DGRsC0hgwWZDZbSCmY/X00bSCnZ4ukS2Glk9veIkRoPu2ElMbKpjxseXn1y9MkTwGHVjw==
 
 "@types/node@*":
   version "14.0.23"

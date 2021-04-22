@@ -85,7 +85,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "clubhouse-lib": "^0.10.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "marked": "^1.2.4"
   }
 }

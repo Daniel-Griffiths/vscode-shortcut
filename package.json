@@ -73,7 +73,7 @@
   "main": "./out/extension.js",
   "devDependencies": {
     "@types/jest": "^26.0.23",
-    "@types/lodash": "^4.14.169",
+    "@types/lodash": "^4.14.170",
     "@types/marked": "^1.2.0",
     "@types/node": "^14.14.41",
     "jest": "^26.6.3",

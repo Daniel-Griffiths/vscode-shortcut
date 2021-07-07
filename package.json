@@ -74,7 +74,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.171",
-    "@types/marked": "^1.2.0",
+    "@types/marked": "^2.0.4",
     "@types/node": "^14.14.41",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.6",

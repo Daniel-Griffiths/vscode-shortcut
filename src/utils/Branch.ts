@@ -18,7 +18,7 @@ export class Branch {
     const branchFormat = workspace.getConfiguration("clubhouse").get<string>("branchFormat") || "[story_type]/[story_id]/[story_name]";
 
     return branchFormat
-      .replace("[story_id]", `ch${story.id}`)
+      .replace("[story_id]", `sc-${story.id}`)
       .replace("[story_type]", story.story_type)
       .replace("[story_name]", kebabCase(story.name))
       .replace("[owner_username]", Storage.get("username"));

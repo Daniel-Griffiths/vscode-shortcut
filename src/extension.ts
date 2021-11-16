@@ -11,23 +11,20 @@ export function activate(context: vscode.ExtensionContext) {
   /**
    * Commands
    */
-  vscode.commands.registerCommand("clubhouse.search", commands.search);
-  vscode.commands.registerCommand("clubhouse.setToken", commands.setToken);
-  vscode.commands.registerCommand("clubhouse.getStories", commands.getStories);
+  vscode.commands.registerCommand("shortcut.search", commands.search);
+  vscode.commands.registerCommand("shortcut.setToken", commands.setToken);
+  vscode.commands.registerCommand("shortcut.getStories", commands.getStories);
+  vscode.commands.registerCommand("shortcut.createStory", commands.createStory);
   vscode.commands.registerCommand(
-    "clubhouse.createStory",
-    commands.createStory
-  );
-  vscode.commands.registerCommand(
-    "clubhouse.createPullRequest",
+    "shortcut.createPullRequest",
     commands.createPullRequest
   );
   vscode.commands.registerCommand(
-    "clubhouse.createCommit",
+    "shortcut.createCommit",
     commands.createCommit
   );
   vscode.commands.registerCommand(
-    "clubhouse.setBaseBranch",
+    "shortcut.setBaseBranch",
     commands.setBaseBranch
   );
 }

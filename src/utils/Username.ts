@@ -3,7 +3,7 @@ import { Storage } from "./Storage";
 
 export class Username {
   public static async set() {
-    const user = await api().getCurrentMember();
+    const { data: user } = await api().getCurrentMemberInfo();
 
     const username = user.mention_name;
 

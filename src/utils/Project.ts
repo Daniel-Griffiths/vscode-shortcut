@@ -9,7 +9,7 @@ export class Project {
    * @static
    */
   public static async getAll(): Promise<IProject[]> {
-    const projects = await api().listProjects();
+    const { data: projects } = await api().listProjects({});
 
     return projects.filter((project) => !project.archived);
   }

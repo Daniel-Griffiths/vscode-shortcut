@@ -1,5 +1,5 @@
 import { QuickPickItem } from "vscode";
-import { Member, Project, Story, WorkflowState } from "clubhouse-lib";
+import { Member, Project, Story, WorkflowState } from "@useshortcut/client";
 
 export type QuickPick<T> = Array<
   {

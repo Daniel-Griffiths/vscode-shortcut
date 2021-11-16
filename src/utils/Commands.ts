@@ -1,6 +1,8 @@
-import * as marked from "marked";
-import { kebabCase, isEmpty } from "lodash";
-import { Story as IStory } from "clubhouse-lib";
+import { isEmpty } from "lodash";
+import {
+  StorySearchResults as IStory,
+  StorySearchResults as IStorySearchResults,
+} from "@useshortcut/client";
 
 import { Git } from "./Git";
 import { Token } from "./Token";
@@ -53,6 +55,8 @@ export class Commands {
     const storyName = await VSCode.input({
       placeHolder: "Enter the story name",
     });
+
+    if (!storyName) return;
 
     const storyDescription = await VSCode.input({
       placeHolder: "Enter the story descripion",
@@ -169,7 +173,7 @@ export class Commands {
       const gitRemoteUrlPath = gitRemoteUrl.startsWith(githubUrl)
         ? gitRemoteUrl.replace(githubUrl, "").replace(".git", "")
         : gitRemoteUrl.split(":")[1].replace(".git", "");
-      const storyDescription = `Story details: https://app.clubhouse.io/story/${story.id}`;
+      const storyDescription = `Story details: https://app.shortcut.com/story/${story.id}`;
 
       const pullRequestUrl = `https://github.com/${gitRemoteUrlPath}/compare/${branchName}?expand=1&title=${story.name}&body=${storyDescription}`;
 
@@ -258,11 +262,11 @@ export class Commands {
   };
 
   /**
-   * WIP
-   *
    * @returns {Promise<void>}
    */
-  private _queryStories = async (stories: IStory[]): Promise<void> => {
+  private _queryStories = async (
+    stories: IStorySearchResults
+  ): Promise<void> => {
     if (isEmpty(stories)) {
       VSCode.alertInfo(NO_STORIES_FOUND_MESSAGE);
       return;
@@ -277,7 +281,7 @@ export class Commands {
     const selectedAction = await VSCode.quickPick([
       {
         label: "View Story",
-        description: "Open the story on clubhouse.io",
+        description: "Open the story on shortcut.com",
         action: Action.openInBrowser,
       },
       {
@@ -285,11 +289,6 @@ export class Commands {
         description: "Create a new branch based on the story name",
         action: Action.createBranch,
       },
-      // {
-      //   label: "View Story In VSCode",
-      //   description: "Open the story in VSCode",
-      //   action: Action.openInVSCode,
-      // },
     ]);
 
     if (!selectedAction) return;
@@ -301,20 +300,6 @@ export class Commands {
     switch (selectedAction.action) {
       case Action.openInBrowser:
         Story.openInBrowser(story.id);
-        break;
-      case Action.openInVSCode:
-        VSCode.openWebView({
-          title: story.name,
-          html: `
-
-        <h1>${story.name}</h1>
-        <p>${marked(story.description)}</p>
-        <hr/>
-        ${story.comments
-          .map((comment) => `<p>${comment.created_at} ${comment.text}</p>`)
-          .join("")}
-        `,
-        });
         break;
       case Action.createBranch:
         const branchName = Branch.getNameFromStory(story);

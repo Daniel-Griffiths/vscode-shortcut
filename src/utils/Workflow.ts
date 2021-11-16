@@ -1,7 +1,7 @@
 import {
   Workflow as IWorkflow,
   WorkflowState as IWorkflowState,
-} from "clubhouse-lib";
+} from "@useshortcut/client";
 
 import { api } from "../api";
 import { Storage } from "./Storage";
@@ -20,7 +20,8 @@ export class Workflow {
    */
   public static async getAll(): Promise<QuickPick<IWorkflowState>> {
     if (!Storage.get<IWorkflow[]>("workflows")) {
-      const workflows = await api().listWorkflows();
+      const { data: workflows } = await api().listWorkflows();
+
       Storage.set<IWorkflow[]>("workflows", workflows);
     }
 

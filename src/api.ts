@@ -1,13 +1,14 @@
-import Clubhouse from "clubhouse-lib";
+import { ShortcutClient } from "@useshortcut/client";
 
 import { Storage } from "./utils/Storage";
 
-let clubhouseInstance: Clubhouse<unknown, unknown>;
+let shortcutInstance: ShortcutClient<unknown>;
 
 export const api = () => {
-  if (!clubhouseInstance) {
-    clubhouseInstance = Clubhouse.create(Storage.get("token"));
+  if (!shortcutInstance) {
+    console.log(Storage.get("token"));
+    shortcutInstance = new ShortcutClient(Storage.get("token"));
   }
 
-  return clubhouseInstance;
+  return shortcutInstance;
 };

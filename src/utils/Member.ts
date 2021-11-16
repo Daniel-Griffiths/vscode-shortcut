@@ -10,7 +10,7 @@ export class Member {
    * @static
    */
   public static async getAll(): Promise<IMember[]> {
-    const members = await api().listMembers();
+    const { data: members } = await api().listMembers({});
     const currentUsername = await Username.get();
 
     return (

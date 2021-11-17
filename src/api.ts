@@ -5,9 +5,10 @@ import { Storage } from "./utils/Storage";
 let shortcutInstance: ShortcutClient<unknown>;
 
 export const api = () => {
-  if (!shortcutInstance) {
-    console.log(Storage.get("token"));
-    shortcutInstance = new ShortcutClient(Storage.get("token"));
+  const token = Storage.get<string>("token");
+
+  if (!shortcutInstance || !token) {
+    shortcutInstance = new ShortcutClient(token);
   }
 
   return shortcutInstance;

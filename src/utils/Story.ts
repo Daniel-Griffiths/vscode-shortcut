@@ -7,6 +7,7 @@ import {
 
 import { api } from "../api";
 import { QuickPick } from "../interfaces";
+import { SHORTCUT_BASE_URL } from "../constants/shortcut";
 
 export class Story {
   /**
@@ -60,7 +61,9 @@ export class Story {
 
     if (!branchId) return;
 
-    return Number(branchId.replace("ch", ""));
+    const branchIdWithoutPrefix = branchId.replace(/\D/g, "");
+
+    return Number(branchIdWithoutPrefix);
   }
 
   /**
@@ -89,7 +92,7 @@ export class Story {
   public static openInBrowser(id: number) {
     if (id) {
       vscode.env.openExternal(
-        vscode.Uri.parse(`https://app.shortcut.com/story/${id}`)
+        vscode.Uri.parse(`${SHORTCUT_BASE_URL}/story/${id}`)
       );
     }
   }

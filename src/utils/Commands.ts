@@ -17,6 +17,10 @@ import { Workflow } from "./Workflow";
 import { Username } from "./Username";
 import { Action } from "../enums/Action";
 import { StoryType } from "../enums/StoryType";
+import {
+  SHORTCUT_BASE_URL,
+  SHORTCUT_STORY_ID_PREFIX,
+} from "../constants/shortcut";
 
 import {
   STORY_CREATED_MESSAGE,
@@ -173,7 +177,7 @@ export class Commands {
       const gitRemoteUrlPath = gitRemoteUrl.startsWith(githubUrl)
         ? gitRemoteUrl.replace(githubUrl, "").replace(".git", "")
         : gitRemoteUrl.split(":")[1].replace(".git", "");
-      const storyDescription = `Story details: https://app.shortcut.com/story/${story.id}`;
+      const storyDescription = `Story details: ${SHORTCUT_BASE_URL}/story/${story.id}`;
 
       const pullRequestUrl = `https://github.com/${gitRemoteUrlPath}/compare/${branchName}?expand=1&title=${story.name}&body=${storyDescription}`;
 
@@ -198,7 +202,7 @@ export class Commands {
     }
 
     const storyName = story.name.replace(/[^\w\s]/gi, "");
-    const defaultCommitMessage = `${storyName} [ch${story.id}]`;
+    const defaultCommitMessage = `${storyName} [${SHORTCUT_STORY_ID_PREFIX}${story.id}]`;
 
     const commitMessage = await VSCode.input({
       value: defaultCommitMessage,

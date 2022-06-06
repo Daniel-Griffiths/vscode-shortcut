@@ -3,6 +3,8 @@
 A extension that adds shortcut.com integration with VSCode, the purpose of this extension is 
 to use all the great features of Shortcut without ever needing to leave the code editor. This means developers can spend more time coding, and less time moving/maintaining stories.
 
+![Tests](https://github.com/Daniel-Griffiths/vscode-shortcut/actions/workflows/publish.yml/badge.svg)
+
 <p align="center">
   <img src="example.gif"/>
 </p>

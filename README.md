@@ -17,7 +17,6 @@ This api key is stored locally in VSCode and is never shared with the outside wo
 
 | Command | Description |
 |---|---|
-| Set Token | Set the shortcut.com api token, this is required to use this VSCode extension |
 | Set Base Branch | Set's the default base branch, when new features branches are created/merged, they will use the default branch as the base |
 | Create Story | Creates a brand new story, this will ask for the various story details |
 | Get Stories| Get's all stories currently assigned to you (separated by workflow) |
@@ -45,14 +44,13 @@ Here is an example branch format:
 
 ## Working on this extension
 
-To compile this extension:
+To work on the extension locally, open this proejct in VSCode and press **F5**. This will open up a new instance of VSCode with the extension loaded.
 
-`yarn build`
 
-To run tests:
+## Running Github Actions locally
 
-`yarn test`
+Install [act](https://github.com/nektos/act) and run the following command
 
-To publish a new version:
-
-`vsce publish minor`
+```bash
+act -P ubuntu-latest=node:16 --reuse
+```

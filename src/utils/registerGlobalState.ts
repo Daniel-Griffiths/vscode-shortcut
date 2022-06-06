@@ -1,4 +1,4 @@
-import { Memento, ExtensionContext } from "vscode";
+import { Memento, ExtensionContext } from 'vscode';
 
 export let globalState: Memento;
 export let globalContext: ExtensionContext;

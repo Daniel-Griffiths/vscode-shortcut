@@ -1,6 +1,6 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
-const { exec } = require("child_process");
+const { exec } = require('child_process');
 
 /**
  * Run commands from the project root
@@ -11,15 +11,15 @@ export const execute = async (commands: string[]): Promise<string> => {
   const command = [
     `cd ${vscode.workspace.rootPath as string}`,
     ...commands,
-  ].join(" && ");
+  ].join(' && ');
 
-  return new Promise((resolve, _reject) => {
+  return new Promise((resolve) => {
     exec(command, (error: string, stdout: string, stderr: string) => {
       if (error) {
         console.warn(error);
       }
 
-      const output = (stdout ? stdout : stderr).trim();
+      const output = (stdout || stderr).trim();
 
       resolve(output);
     });

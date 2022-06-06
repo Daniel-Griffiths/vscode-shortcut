@@ -1,5 +1,5 @@
-import { api } from "../api";
-import { IProject, QuickPick } from "../interfaces";
+import { api } from '../api';
+import { IProject, QuickPick } from '../interfaces';
 
 export class Project {
   /**
@@ -22,12 +22,10 @@ export class Project {
    * @static
    */
   public static toQuickPickItems(projects: IProject[]): QuickPick<IProject> {
-    return projects.map((project) => {
-      return {
-        data: project,
-        label: String(project.name),
-        description: String(project.description),
-      };
-    });
+    return projects.map((project) => ({
+      data: project,
+      label: String(project.name),
+      description: String(project.description),
+    }));
   }
 }

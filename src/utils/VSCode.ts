@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
 export class VSCode {
   /**
@@ -9,10 +9,10 @@ export class VSCode {
    */
   public static openWebView(options: { title: string; html: string }): void {
     const panel = vscode.window.createWebviewPanel(
-      "catCoding",
+      'catCoding',
       options.title,
       vscode.ViewColumn.One,
-      {}
+      {},
     );
 
     panel.webview.html = `<div style="max-width: 900px; margin: auto;">${options.html}</div>`;
@@ -27,9 +27,9 @@ export class VSCode {
    */
   public static async quickPick<T extends vscode.QuickPickItem>(
     items: T[],
-    options?: vscode.QuickPickOptions
+    options?: vscode.QuickPickOptions,
   ): Promise<T | undefined> {
-    return await vscode.window.showQuickPick(items, options);
+    return vscode.window.showQuickPick(items, options);
   }
 
   /**
@@ -70,17 +70,15 @@ export class VSCode {
    */
   public static async alertLoading<T>(
     message: string,
-    callback: () => Promise<T>
+    callback: () => Promise<T>,
   ) {
-    return await vscode.window.withProgress(
+    return vscode.window.withProgress(
       {
         title: message,
         cancellable: false,
         location: vscode.ProgressLocation.Notification,
       },
-      () => {
-        return callback();
-      }
+      () => callback(),
     );
   }
 
@@ -92,17 +90,15 @@ export class VSCode {
    */
   public static async progressLoading<T>(
     message: string,
-    callback: () => Promise<T>
+    callback: () => Promise<T>,
   ) {
-    return await vscode.window.withProgress(
+    return vscode.window.withProgress(
       {
         title: message,
         cancellable: false,
         location: vscode.ProgressLocation.Window,
       },
-      () => {
-        return callback();
-      }
+      () => callback(),
     );
   }
 
@@ -113,9 +109,9 @@ export class VSCode {
    * @returns {Promise<Thenable<string | undefined>>}
    */
   public static async input(
-    options: vscode.InputBoxOptions
+    options: vscode.InputBoxOptions,
   ): Promise<Thenable<string | undefined>> {
-    return await vscode.window.showInputBox(options);
+    return vscode.window.showInputBox(options);
   }
 
   /**

@@ -1,13 +1,13 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 import {
   Story as IStory,
   CreateStoryParams as IStoryChange,
   StorySearchResults as IStorySearchResults,
-} from "@useshortcut/client";
+} from '@useshortcut/client';
 
-import { api } from "../api";
-import { QuickPick } from "../interfaces";
-import { SHORTCUT_BASE_URL } from "../constants/shortcut";
+import { api } from '../api';
+import { QuickPick } from '../interfaces';
+import { SHORTCUT_BASE_URL } from '../constants/shortcut';
 
 export class Story {
   /**
@@ -57,11 +57,11 @@ export class Story {
    * @static
    */
   public static getIdFromBranchName(branch: string): number | undefined {
-    const [_, branchId] = branch.split("/");
+    const [, branchId] = branch.split('/');
 
     if (!branchId) return;
 
-    const branchIdWithoutPrefix = branchId.replace(/\D/g, "");
+    const branchIdWithoutPrefix = branchId.replace(/\D/g, '');
 
     return Number(branchIdWithoutPrefix);
   }
@@ -74,13 +74,13 @@ export class Story {
    * @static
    */
   public static async getBasedOnBranchName(
-    branch: string
+    branch: string,
   ): Promise<IStory | undefined> {
     const storyId = Story.getIdFromBranchName(branch);
 
     if (!storyId) return;
 
-    return await Story.getById(storyId);
+    return Story.getById(storyId);
   }
 
   /**
@@ -92,7 +92,7 @@ export class Story {
   public static openInBrowser(id: number) {
     if (id) {
       vscode.env.openExternal(
-        vscode.Uri.parse(`${SHORTCUT_BASE_URL}/story/${id}`)
+        vscode.Uri.parse(`${SHORTCUT_BASE_URL}/story/${id}`),
       );
     }
   }
@@ -105,14 +105,12 @@ export class Story {
    * @static
    */
   public static toQuickPickItems(
-    stories: IStorySearchResults
+    stories: IStorySearchResults,
   ): QuickPick<IStory> {
-    return stories.data.map((story) => {
-      return {
-        data: story,
-        label: String(story.id),
-        description: String(story.name),
-      };
-    });
+    return stories.data.map((story) => ({
+      data: story,
+      label: String(story.id),
+      description: String(story.name),
+    }));
   }
 }

@@ -1,6 +1,6 @@
-import { api } from "../api";
-import { IMember, QuickPick } from "../interfaces";
-import { Username } from "./Username";
+import { api } from '../api';
+import { IMember, QuickPick } from '../interfaces';
+import { Setting } from './Settings';
 
 export class Member {
   /**
@@ -11,15 +11,13 @@ export class Member {
    */
   public static async getAll(): Promise<IMember[]> {
     const { data: members } = await api().listMembers({});
-    const currentUsername = await Username.get();
+    const currentUsername = Setting.get('username');
 
     return (
       members
         .filter((member) => !member.disabled)
         // Make sure the users own name is at the top of the list
-        .sort((a) => {
-          return a.profile.mention_name === currentUsername ? -1 : 1;
-        })
+        .sort((a) => (a.profile.mention_name === currentUsername ? -1 : 1))
     );
   }
 
@@ -31,12 +29,10 @@ export class Member {
    * @static
    */
   public static toQuickPickItems(members: IMember[]): QuickPick<IMember> {
-    return members.map((member) => {
-      return {
-        data: member,
-        label: String(member.profile.name),
-        description: String(member.profile.email_address),
-      };
-    });
+    return members.map((member) => ({
+      data: member,
+      label: String(member.profile.name),
+      description: String(member.profile.email_address),
+    }));
   }
 }

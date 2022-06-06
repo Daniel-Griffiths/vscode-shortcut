@@ -1,5 +1,5 @@
-import * as vscode from "vscode";
-import { globalState } from "./registerGlobalState";
+import * as vscode from 'vscode';
+import { globalState } from './registerGlobalState';
 
 export class Storage {
   /**
@@ -9,9 +9,7 @@ export class Storage {
    * @returns {T|undefined}
    * @static
    */
-  public static get = <T>(key: string): T => {
-    return globalState && (globalState.get<T>(key) as T);
-  };
+  public static get = <T>(key: string): T => globalState && (globalState.get<T>(key) as T);
 
   /**
    * Set an item from local storage

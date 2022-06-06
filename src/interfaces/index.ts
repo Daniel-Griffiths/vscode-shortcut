@@ -1,10 +1,10 @@
-import { QuickPickItem } from "vscode";
-import { Member, Project, Story, WorkflowState } from "@useshortcut/client";
+import { QuickPickItem } from 'vscode';
+import { Member, Project } from '@useshortcut/client';
 
 export type QuickPick<T> = Array<
-  {
-    data: T;
-  } & QuickPickItem
+{
+  data: T;
+} & QuickPickItem
 >;
 
 export interface IUser {

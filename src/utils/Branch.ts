@@ -1,8 +1,7 @@
-import { kebabCase } from "lodash";
-import { workspace } from "vscode";
-import { Story as IStory } from "@useshortcut/client";
+import { kebabCase } from 'lodash';
+import { Story as IStory } from '@useshortcut/client';
 
-import { Storage } from "./Storage";
+import { Setting } from './Settings';
 
 export class Branch {
   /**
@@ -11,16 +10,16 @@ export class Branch {
    * the format is also user configurable in VSCode.
    *
    * @param {IStory} story
-   * @returns {string}
+   * @returns {string | null}
    */
-  public static getNameFromStory(story: IStory): string {
-    // prettier-ignore
-    const branchFormat = workspace.getConfiguration("shortcut").get<string>("branchFormat") || "[story_type]/[story_id]/[story_name]";
+  public static getNameFromStory(story: IStory): string | null {
+    const branchFormat = Setting.get('branchFormat');
+    const username = Setting.get('username');
 
     return branchFormat
-      .replace("[story_id]", `sc-${story.id}`)
-      .replace("[story_type]", story.story_type)
-      .replace("[story_name]", kebabCase(story.name))
-      .replace("[owner_username]", Storage.get("username"));
+      .replace('[owner_username]', username)
+      .replace('[story_id]', `sc-${story.id}`)
+      .replace('[story_type]', story.story_type)
+      .replace('[story_name]', kebabCase(story.name));
   }
 }

@@ -1,13 +1,17 @@
-import { ShortcutClient } from "@useshortcut/client";
+import { ShortcutClient } from '@useshortcut/client';
 
-import { Storage } from "./utils/Storage";
+import { Setting } from './utils/Settings';
 
 let shortcutInstance: ShortcutClient<unknown>;
 
 export const api = () => {
-  const token = Storage.get<string>("token");
+  const token = Setting.get('token');
 
-  if (!shortcutInstance || !token) {
+  if (!token) {
+    throw new Error('Please set your shortcut token');
+  }
+
+  if (!shortcutInstance) {
     shortcutInstance = new ShortcutClient(token);
   }
 

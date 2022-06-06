@@ -1,18 +1,15 @@
 {
-  "version": "0.23.0",
+  "version": "0.24.0",
   "name": "shortcut-com",
   "displayName": "shortcut.com",
   "publisher": "danielgriffiths",
   "description": "Use Shortcut in VSCode",
   "icon": "src/assets/images/logo.png",
   "scripts": {
-    "test": "jest",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "vscode:prepublish": "yarn run compile",
-    "build": "yarn compile && vsce package",
-    "deploy": "yarn build && vsce publish minor",
-    "postinstall": "touch node_modules/.metadata_never_index && node ./node_modules/vscode/bin/install"
+    "tsc": "tsc --noEmit",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint \"**/*.ts*\" --fix",
+    "build": "tsc -p ./"
   },
   "contributes": {
     "commands": [
@@ -23,10 +20,6 @@
       {
         "command": "shortcut.createStory",
         "title": "Shortcut: Create New Story"
-      },
-      {
-        "command": "shortcut.setToken",
-        "title": "Shortcut: Set Token"
       },
       {
         "command": "shortcut.setBaseBranch",
@@ -49,6 +42,16 @@
       "type": "object",
       "title": "shortcut configuration",
       "properties": {
+        "shortcut.token": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "The [token](https://app.shortcut.com/settings/account/api-tokens) used to communicate with the Shortcut api"
+        },
+        "shortcut.username": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Your username on Shortcut, this is used to determine which stories are assigned to you"
+        },
         "shortcut.branchFormat": {
           "type": "string",
           "default": "[story_type]/[story_id]/[story_name]",
@@ -72,18 +75,25 @@
   ],
   "main": "./out/extension.js",
   "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "@types/lodash": "^4.14.177",
-    "@types/node": "^16.11.7",
-    "jest": "^27.3.1",
-    "ts-jest": "^27.0.7",
-    "tslint": "^6.1.3",
-    "typescript": "^4.4.4",
-    "vscode": "^1.1.37"
+    "@types/jest": "^28.1.1",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^17.0.40",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "jest": "^28.1.0",
+    "ts-jest": "^28.0.4",
+    "typescript": "^4.7.3"
   },
   "dependencies": {
+    "@types/vscode": "^1.67.0",
     "@useshortcut/client": "^1.0.0",
-    "axios": "^0.24.0",
+    "axios": "^0.27.2",
+    "eslint-config-airbnb": "^19.0.4",
     "lodash": "^4.17.20"
   }
 }

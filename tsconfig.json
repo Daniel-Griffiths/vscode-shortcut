@@ -6,6 +6,7 @@
     "sourceMap": true,
     "rootDir": "./src",
     "module": "commonjs",
+    "skipLibCheck": true,
     "noUnusedLocals": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

@@ -1,7 +1,7 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
-import { Commands } from "./utils/Commands";
-import { registerGlobalState } from "./utils/registerGlobalState";
+import { Commands } from './utils/Commands';
+import { registerGlobalState } from './utils/registerGlobalState';
 
 export function activate(context: vscode.ExtensionContext) {
   registerGlobalState(context);
@@ -11,21 +11,20 @@ export function activate(context: vscode.ExtensionContext) {
   /**
    * Commands
    */
-  vscode.commands.registerCommand("shortcut.search", commands.search);
-  vscode.commands.registerCommand("shortcut.setToken", commands.setToken);
-  vscode.commands.registerCommand("shortcut.getStories", commands.getStories);
-  vscode.commands.registerCommand("shortcut.createStory", commands.createStory);
+  vscode.commands.registerCommand('shortcut.search', commands.search);
+  vscode.commands.registerCommand('shortcut.getStories', commands.getStories);
+  vscode.commands.registerCommand('shortcut.createStory', commands.createStory);
   vscode.commands.registerCommand(
-    "shortcut.createPullRequest",
-    commands.createPullRequest
+    'shortcut.createPullRequest',
+    commands.createPullRequest,
   );
   vscode.commands.registerCommand(
-    "shortcut.createCommit",
-    commands.createCommit
+    'shortcut.createCommit',
+    commands.createCommit,
   );
   vscode.commands.registerCommand(
-    "shortcut.setBaseBranch",
-    commands.setBaseBranch
+    'shortcut.setBaseBranch',
+    commands.setBaseBranch,
   );
 }
 

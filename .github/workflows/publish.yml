@@ -32,7 +32,6 @@ jobs:
         run: yarn build
 
       - uses: lannonbr/vsce-action@3.0.0
-        if: github.ref != 'refs/heads/master'
         with:
           args: 'publish minor -p $VSCE_TOKEN'
         env:

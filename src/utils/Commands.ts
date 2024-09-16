@@ -130,12 +130,11 @@ export class Commands {
 
     const searchResults = await VSCode.progressLoading(
       'Fetching stories...',
-      async () =>
-        Story.search(
-          `owner:${Setting.get(
-            'username'
-          )} state:"${selectedState.data.name.toLowerCase()}" !is:archived`
-        )
+      async () => Story.search(
+        `owner:${Setting.get(
+          'username'
+        )} state:"${selectedState.data.name.toLowerCase()}" !is:archived`
+      )
     );
 
     this._queryStories(searchResults);
@@ -259,7 +258,7 @@ export class Commands {
 
     switch (selectedAction.action) {
       case Action.openInBrowser:
-        Story.openInBrowser(story.id);
+        await Story.openInBrowser(story.id);
         break;
       case Action.createBranch:
         await VSCode.alertLoading('Creating new branch...', async () => {

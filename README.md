@@ -28,6 +28,10 @@ This api key is stored locally in VSCode and is never shared with the outside wo
 
 ## Settings
 
+**Workplace slug**
+
+This is the slug of the workplace you are working in, this can be found in the url of the shortcut.com website, for example if your url is `https://app.shortcut.com/your-workplace-slug` then your workplace slug is `your-workplace-slug`, this is used when opening stories in the browser.
+
 **Branch Format**
 
 This option enables you to change the default branch format when creating new branch, there are a couple of variable that can be added to the branch name

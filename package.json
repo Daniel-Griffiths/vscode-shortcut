@@ -52,6 +52,11 @@
           "default": "",
           "markdownDescription": "Your username on Shortcut, this is used to determine which stories are assigned to you"
         },
+        "shortcut.workplaceSlug": {
+          "type": "string",
+          "default": "",
+          "description": "This is the slug of the workplace you are working in, this can be found in the url of the shortcut.com website, for example if your url is `https://app.shortcut.com/your-workplace-slug` then your workplace slug is `your-workplace-slug`, this is used when opening stories in the browser."
+        },
         "shortcut.branchFormat": {
           "type": "string",
           "default": "[story_type]/[story_id]/[story_name]",

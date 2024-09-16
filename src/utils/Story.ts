@@ -8,6 +8,7 @@ import {
 import { api } from '../api';
 import { QuickPick } from '../interfaces';
 import { SHORTCUT_BASE_URL } from '../constants/shortcut';
+import { Setting } from './Settings';
 
 export class Story {
   /**
@@ -89,10 +90,21 @@ export class Story {
    * @param {number} id The story id
    * @static
    */
-  public static openInBrowser(id: number) {
+  public static async openInBrowser(id: number) {
+    const workplaceSlug = Setting.get('workplaceSlug');
+
+    if (!workplaceSlug) {
+      const selection = await vscode.window.showErrorMessage('Workplace slug is not set', 'Open Settings');
+
+      if (selection === 'Open Settings') {
+        vscode.commands.executeCommand('workbench.action.openSettings', 'workplaceSlug');
+      }
+      return;
+    }
+
     if (id) {
       vscode.env.openExternal(
-        vscode.Uri.parse(`${SHORTCUT_BASE_URL}/story/${id}`),
+        vscode.Uri.parse(`${SHORTCUT_BASE_URL}/${workplaceSlug}/story/${id}`),
       );
     }
   }

@@ -1,5 +1,5 @@
 import { QuickPickItem } from 'vscode';
-import { Member, Project } from '@shortcut/client';
+import { Member } from '@shortcut/client';
 
 export type QuickPick<T> = Array<
 {
@@ -15,4 +15,3 @@ export interface IUser {
 }
 
 export type IMember = Member;
-export type IProject = Project;

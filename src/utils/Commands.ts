@@ -8,7 +8,6 @@ import { VSCode } from './VSCode';
 import { Branch } from './Branch';
 import { Member } from './Member';
 import { Storage } from './Storage';
-import { Project } from './Project';
 import { Workflow } from './Workflow';
 import { Action } from '../enums/Action';
 import { StoryType } from '../enums/StoryType';
@@ -79,17 +78,6 @@ export class Commands {
 
     if (!storyType) return;
 
-    const projects = await Project.getAll();
-
-    const storyProject = await VSCode.quickPick(
-      Project.toQuickPickItems(projects),
-      {
-        placeHolder: 'Which project does this story belong to?',
-      }
-    );
-
-    if (!storyProject) return;
-
     const members = await Member.getAll();
 
     const storyOwner = await VSCode.quickPick(
@@ -107,7 +95,6 @@ export class Commands {
       description: storyDescription,
       estimate: Number(storyEstimate),
       owner_ids: [storyOwner.data.id],
-      project_id: storyProject.data.id,
       workflow_state_id: storyState.data.id,
     });
 

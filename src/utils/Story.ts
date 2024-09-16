@@ -3,7 +3,7 @@ import {
   Story as IStory,
   CreateStoryParams as IStoryChange,
   StorySearchResults as IStorySearchResults,
-} from '@useshortcut/client';
+} from '@shortcut/client';
 
 import { api } from '../api';
 import { QuickPick } from '../interfaces';
@@ -108,9 +108,9 @@ export class Story {
     stories: IStorySearchResults,
   ): QuickPick<IStory> {
     return stories.data.map((story) => ({
-      data: story,
+      data: story as IStory,
       label: String(story.id),
-      description: String(story.name),
+      description: story.name ? String(story.name) : '',
     }));
   }
 }

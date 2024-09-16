@@ -1,4 +1,4 @@
-import { ShortcutClient } from '@useshortcut/client';
+import { ShortcutClient } from '@shortcut/client';
 
 import { Setting } from './utils/Settings';
 

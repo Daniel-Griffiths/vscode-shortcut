@@ -1,7 +1,7 @@
 import {
   Workflow as IWorkflow,
   WorkflowState as IWorkflowState,
-} from '@useshortcut/client';
+} from '@shortcut/client';
 
 import { api } from '../api';
 import { Storage } from './Storage';
@@ -19,14 +19,16 @@ export class Workflow {
    * @static
    */
   public static async getAll(): Promise<QuickPick<IWorkflowState>> {
-    if (!Storage.get<IWorkflow[]>('workflows')) {
-      const { data: workflows } = await api().listWorkflows();
+    const cachedWorkflows = Storage.get<IWorkflow[]>('workflows');
 
-      Storage.set<IWorkflow[]>('workflows', workflows);
-    }
+    const { data: workflows } = await api().listWorkflows();
+
+    Storage.set<IWorkflow[]>('workflows', workflows);
+
+    const [firstWorkflow] = cachedWorkflows || workflows;
 
     // @todo don't assume the first item has the correct workflows
-    return Storage.get<IWorkflow[]>('workflows')[0].states.map((workflow) => ({
+    return firstWorkflow.states.map((workflow) => ({
       data: workflow,
       label: workflow.name,
       description: workflow.description,

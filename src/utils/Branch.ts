@@ -1,5 +1,5 @@
 import { kebabCase } from 'lodash';
-import { Story as IStory } from '@useshortcut/client';
+import { Story as IStory } from '@shortcut/client';
 
 import { Setting } from './Settings';
 

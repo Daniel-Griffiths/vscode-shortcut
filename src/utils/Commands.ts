@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-import { StorySearchResults as IStorySearchResults } from '@useshortcut/client';
+import { StorySearchResults as IStorySearchResults } from '@shortcut/client';
 
 import { Git } from './Git';
 import { Story } from './Story';

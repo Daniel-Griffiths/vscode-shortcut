@@ -1,5 +1,5 @@
 import { QuickPickItem } from 'vscode';
-import { Member, Project } from '@useshortcut/client';
+import { Member, Project } from '@shortcut/client';
 
 export type QuickPick<T> = Array<
 {

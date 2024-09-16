@@ -1180,13 +1180,6 @@
     "@typescript-eslint/types" "8.6.0"
     eslint-visitor-keys "^3.4.3"
 
-"@shortcut/client@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@shortcut/client/-/client-1.1.0.tgz#4391d8dd209884fa7c87433f2df950affb423638"
-  integrity sha512-cRc3uc3OfcNKNQS2SkBQosGVvqTc6eC/4E4PU15e3XL6MxVnyhuC+JfSk1YRGLKJ0dihe+Ej3kiId2DprG+ybw==
-  dependencies:
-    axios "^1.5.0"
-
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
